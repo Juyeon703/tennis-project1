@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link rel="shortcut icon" href="#">
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.1.js"
+          integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+          crossorigin="anonymous"></script>
+  <title>Login</title>
+</head>
+<body>
+<div>
+  <form role="form" action="/login/memberLogin" method="post" th:object="${form}">
+    <div th:if="${#fields.hasGlobalErrors()}">
+      <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+    </div>
+    <div>
+      <input type="text" th:field="${form.loginId}" placeholder="아이디를 입력해주세요.">
+      <div th:errors="${form.loginId}"></div>
+    </div>
+    <div>
+      <input type="password" th:field="${form.password}" placeholder="비밀번호를 입력해주세요.">
+      <div th:errors="${form.password}"></div>
+    </div>
+    <button type="submit">로그인</button>
+  </form>
+</div>
+</body>
+</html>

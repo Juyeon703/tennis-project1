@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link rel="shortcut icon" href="#">
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.1.js"
+          integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+          crossorigin="anonymous"></script>
+  <title>SignUp</title>
+</head>
+<body>
+<div>
+  <form role="form" action="/members/memberSave" method="post" th:object="${form}">
+    <div>
+      <input type="text" th:field="${form.loginId}" placeholder="아이디를 입력해주세요.">
+      <div th:errors="${form.loginId}"></div>
+      <!-- validation이 에러메시지 출력? -->
+    </div>
+    <div>
+      <input type="text" th:field="${form.password}" placeholder="비밀번호를 입력해주세요.">
+      <div th:errors="${form.password}"></div>
+    </div>
+    <div>
+      <input type="text" th:field="${form.nickname}" placeholder="닉네임을 입력해주세요.">
+      <div th:errors="${form.nickname}"></div>
+    </div>
+    <div>
+      <input type="email" th:field="${form.email}" placeholder="이메일을 입력해주세요.">
+      <div th:errors="${form.email}"></div>
+    </div>
+    <button type="submit">회원가입</button>
+  </form>
+</div>
+</body>
+</html>
