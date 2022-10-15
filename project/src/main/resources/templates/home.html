@@ -14,7 +14,10 @@
   <button th:onclick="|location.href='@{/members/signUp}'|">회원가입</button>
   <button th:onclick="|location.href='@{/login/loginForm}'|">로그인</button>
 </div>
+
 <div th:if="${session.loginMember != null}">
+  <button th:onclick="|location.href='@{/boards/home}'|">게시글 전체보기</button>
+  <button th:onclick="|location.href='@{/boards/boardAdd}'|">게시글 등록</button>
   <button th:onclick="|location.href='@{/login/logout}'|">로그아웃</button>
 </div>
 </body>
