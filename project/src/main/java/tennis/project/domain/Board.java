@@ -8,6 +8,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import tennis.project.dto.BoardSaveForm;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;

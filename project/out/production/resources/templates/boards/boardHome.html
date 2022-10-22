@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link rel="shortcut icon" href="#">
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.1.js"
+          integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+          crossorigin="anonymous"></script>
+  <title>Login</title>
+</head>
+<body>
+<div class="board-list">
+  <h4>자유게시판</h4>
+  <table>
+    <thead>
+    <tr>
+      <th>게시판번호</th>
+      <th>제목</th>
+      <th>작성자</th>
+      <th>조회수</th>
+      <th>작성일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="board:${list}">
+      <td th:text="${board.id}"></td>
+      <td>
+        <a th:text="${board.title}" th:href="@{'/boards/detail/'+ ${board.id}}"></a>
+      </td>
+      <td th:text="${board.author}"></td>
+      <td th:text="${board.views}"></td>
+      <td th:text="${board.createdDate}"></td>
+    </tr>
+    </tbody>
+  </table>
+  <div>
+    <button th:if="${session.loginMember != null}" th:onclick="|location.href='@{/boards/boardAdd}'|">게시글 등록</button>
+    <button th:if="${session.loginMember == null}" th:onclick="|location.href='@{/login/loginForm}'|">게시글 등록</button>
+  </div>
+</div>
+</body>
+</html>
