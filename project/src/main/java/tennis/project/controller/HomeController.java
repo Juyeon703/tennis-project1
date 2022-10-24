@@ -12,6 +12,11 @@ public class HomeController {
 
   @GetMapping("/")
   public String home() {
+    return "index";
+  }
+
+  @GetMapping("/other")
+  public String other() {
     return "other";
   }
 }

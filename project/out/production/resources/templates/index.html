@@ -5,9 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <title>Tennis</title>
         <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
-        <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
+       <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
         <!-- CSS Bootstrap -->
@@ -15,6 +13,7 @@
               integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
         <!-- CSS -->
         <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/carousel.css" rel="stylesheet" />
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -23,15 +22,14 @@
                 <a class="navbar-brand" href="#page-top">GOGOtennis</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
-                    <i class="fas fa-bars"></i>
                 </button>
                 <div class="gap-5 collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link" href="#">매치</a></li>
-                        <li class="nav-item"><a class="nav-link" href="other.html">대회</a></li>
+                        <li class="nav-item"><a class="nav-link" th:href="@{/tournament}">대회</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">랭킹</a></li>
                         <li class="nav-item"><a class="nav-link" th:href="@{/boards/home}">커뮤니티</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">동호회</a></li>
+                        <li class="nav-item"><a class="nav-link" th:href="@{/other}">동호회</a></li>
                     </ul>
                     <div class="gap-2 d-md-flex">
                         <div th:if="${session.loginMember == null}">
@@ -69,8 +67,7 @@
                 </div>
             </div>
         </div>
-
-        <!-- Masthead-->
+        <!-- Main Carousel -->
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -97,6 +94,115 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
+
+        <!-- 빈 공간 -->
+        <div class="col-12 p-5"></div>
+        <!-- DateCarousel -->
+        <div class="container">
+                <div class="row mx-auto my-auto justify-content-center">
+                    <div id="recipeCarousel" class="carousel slide">
+                        <div class="carouselElement">
+                        <a class="carousel-control-prev bg-transparent w-aut disableLink" href="#recipeCarousel" role="button" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </a>
+                        </div>
+                        <div class="carouselElement">
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary">Primary1<br><strong>월</strong></button>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary">Primary2<br><strong>월</strong></button>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary">Primary3<br><strong>월</strong></button>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary">Primary4<br><strong>월</strong></button>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary">Primary5<br><strong>월</strong></button>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary">Primary6<br><strong>월</strong></button>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary">Primary7<br><strong>월</strong></button>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary">Primary8<br><strong>월</strong></button>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary">Primary9<br><strong>월</strong></button>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary">Primary10<br><strong>월</strong></button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="carouselElement">
+                        <a class="carousel-control-next bg-transparent w-aut" id="nextIcon" href="#recipeCarousel" role="button" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        </a>
+                        </div>
+                    </div>
+                </div>
+            <!-- 빈 공간 -->
+            <div class="col-12 p-3"></div>
+
+        <!-- match table -->
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td colspan="2">Larry the Bird</td>
+                <td>@twitter</td>
+            </tr>
+            </tbody>
+        </table>
+
+        </div>
+
         <!-- Footer-->
         <footer class="footer bg-white small text-center text-black-50">
             <div class="container px-4 px-lg-5">Copyright &copy; 우아한1팀 Website 2022</div>
@@ -110,5 +216,7 @@
                 integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
         <!-- JS-->
         <script src="js/scripts.js"></script>
+        <script src="js/carousel.js"></script>
+
     </body>
 </html>

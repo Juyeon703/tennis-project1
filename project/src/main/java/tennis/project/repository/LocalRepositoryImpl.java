@@ -8,9 +8,8 @@ import javax.persistence.PersistenceContext;
 
 @Repository
 @RequiredArgsConstructor
-public class MemberRepositoryImpl {
+public class LocalRepositoryImpl implements LocalRepositoryInterface{
 
   @PersistenceContext
   private final EntityManager em;
-
 }

@@ -51,7 +51,6 @@ public class Board {
 
   @ManyToOne(fetch = LAZY) // 지연로딩 -> 다대일 관계 매핑시 설정, 사용자가 많아질 경우에 속도를 우선시해서 안정성이 높아짐?
   @JoinColumn(name = "member_id")
-
   private Member member;
 
   public static Board createBoard(BoardSaveForm form, Member member) {
