@@ -10,16 +10,19 @@ $('.category').click(function(){
 $(document).ready(function(){
     $(".category").click(function(e) {
         e.preventDefault();
+        var card = document.getElementsByClassName("card_area");
         var selectedCategory = $(this).attr("title");
-        $(".card_area").fadeOut("fast");
-        if (selectedCategory == "all") {
-            $(".card_area").fadeIn("slow");
+        $(card).fadeOut("fast");
+        if (selectedCategory === "all") {
+            $(card).fadeIn("fast");
         }
         else {
-            $(".card_area[title*="+selectedCategory+"]").fadeIn("slow");
+            $(".card_area[title="+selectedCategory+"]").fadeIn("fast");
         }
     });
 });
+
+
 
 
 
