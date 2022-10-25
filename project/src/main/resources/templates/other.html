@@ -1,488 +1,506 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <title>Tennis</title>
-        <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
-       <!-- CSS Bootstrap -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-              integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-        <!-- CSS -->
-        <link href="css/styles.css" rel="stylesheet" />
-        <link href="css/banner.css" rel="stylesheet" />
-    </head>
-    <body>
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-shrink" id="mainNav">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#page-top">GOGOtennis</a>
-               <!-- <a class="navbar-brand" th:href="@{/}">
-                    <img src="img/logo2.png" alt="logo" width="100">
-                </a>-->
-                <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                </button>
-                <div class="gap-5 collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="#">매치</a></li>
-                        <li class="nav-item"><a class="nav-link" th:href="@{/tournament}">대회</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">랭킹</a></li>
-                        <li class="nav-item"><a class="nav-link" th:href="@{/boards/home}">커뮤니티</a></li>
-                        <li class="nav-item"><a class="nav-link" th:href="@{/other}">동호회</a></li>
-                    </ul>
-                    <div class="gap-2 d-md-flex">
-                        <div th:if="${session.loginMember == null}">
-                            <button type="button" class="btn btn-outline-primary"
-                                th:onclick="|location.href='@{/members/signUp}'|">회원가입</button>
-                            <button type="button" class="btn btn-outline-primary"
-                                th:onclick="|location.href='@{/login/loginForm}'|">로그인</button>
-                        </div>
-                        <div th:if="${session.loginMember != null}">
-                            <button type="button" class="btn btn-outline-primary"
-                                    th:onclick="|location.href='@{/login/logout}'|">로그아웃</button>
-                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#loginModal"
-                                    th:onclick="|location.href='@{#}'|">내 정보</button>
-                        </div>
-                    </div>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <title>Tennis</title>
+  <link rel="icon" type="image/x-icon" href="img/favicon.ico"/>
+  <!-- Google fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet"/>
+  <link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet"/>
+  <!-- CSS Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <!-- CSS -->
+  <link href="/css/styles.css" rel="stylesheet"/>
+  <link href="/css/banner.css" rel="stylesheet"/>
+</head>
+<body>
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-shrink" id="mainNav">
+  <div class="container px-4 px-lg-5">
+    <a class="navbar-brand" href="#page-top">GOGOtennis</a>
+    <!-- <a class="navbar-brand" th:href="@{/}">
+         <img src="img/logo2.png" alt="logo" width="100">
+     </a>-->
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+            aria-label="Toggle navigation">
+      Menu
+    </button>
+    <div class="gap-5 collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#">매치</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/tournament}">대회</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">랭킹</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/boards/home}">커뮤니티</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/other}">동호회</a></li>
+      </ul>
+      <div class="gap-2 d-md-flex">
+        <div th:if="${session.loginMember == null}">
+          <button type="button" class="btn btn-outline-primary"
+                  th:onclick="|location.href='@{/members/signUp}'|">회원가입
+          </button>
+          <button type="button" class="btn btn-outline-primary"
+                  th:onclick="|location.href='@{/login/loginForm}'|">로그인
+          </button>
+        </div>
+        <div th:if="${session.loginMember != null}">
+          <button type="button" class="btn btn-outline-primary"
+                  th:onclick="|location.href='@{/login/logout}'|">로그아웃
+          </button>
+          <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#loginModal"
+                  th:onclick="|location.href='@{#}'|">내 정보
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<!-- banner -->
+<div class="board_banner_area">
+  <div class="board_banner_text">
+    <h1>Community</h1>
+    <p>Check out the news and notices!</p>
+  </div>
+  <img src="/img/board_banner_1.jpg" alt="Contact US 배너 이미지">
+</div>
+
+<div class="container">
+  <div>
+    <h1>자유게시판</h1>
+  </div>
+
+
+  <div class="wp_notice_wrap">
+    <div class="wp_notice_title">
+      <h1>NOTICE</h1>
+    </div>
+    <div class="wp_notice_area">
+      <div id="kboard-default-list">
+
+        <!-- 게시판 정보 시작 -->
+        <div class="kboard-list-header">
+          <div class="kboard-total-count">
+            전체 15
+          </div>
+
+          <div class="kboard-sort">
+            <form id="kboard-sort-form-1" method="get" action="/tem_board_1/">
+              <input type="hidden" name="mod" value="list"><input type="hidden" name="pageid" value="1"><input
+              type="hidden" name="kboard_list_sort_remember" value="1">
+              <select name="kboard_list_sort" onchange="jQuery('#kboard-sort-form-1').submit();">
+                <option value="newest" selected="">최신순</option>
+                <option value="best">추천순</option>
+                <option value="viewed">조회순</option>
+                <option value="updated">업데이트순</option>
+              </select>
+            </form>
+          </div>
+        </div>
+        <!-- 게시판 정보 끝 -->
+
+        <!-- 카테고리 시작 -->
+        <!-- 카테고리 끝 -->
+
+        <!-- 리스트 시작 -->
+        <div class="kboard-list">
+          <table>
+            <thead>
+            <tr>
+              <td class="kboard-list-uid">번호</td>
+              <td class="kboard-list-title">제목</td>
+              <td class="kboard-list-user">작성자</td>
+              <td class="kboard-list-date">작성일</td>
+              <td class="kboard-list-vote">추천</td>
+              <td class="kboard-list-view">조회</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="kboard-list-notice">
+              <td class="kboard-list-uid">공지사항</td>
+              <td class="kboard-list-title">
+                <a href="/tem_board_1/?uid=16&amp;mod=document&amp;pageid=1">
+                  <div class="kboard-default-cut-strings">
+                    무제한으로 웹사이트를 만드세요. <span class="kboard-comments-count"></span>
+                  </div>
+                </a>
+                <div class="kboard-mobile-contents">
+                  <span class="contents-item kboard-user">hompion</span>
+                  <span class="contents-separator kboard-date">|</span>
+                  <span class="contents-item kboard-date">2020.07.30</span>
+                  <span class="contents-separator kboard-vote">|</span>
+                  <span class="contents-item kboard-vote">추천 0</span>
+                  <span class="contents-separator kboard-view">|</span>
+                  <span class="contents-item kboard-view">조회 8</span>
                 </div>
-            </div>
-        </nav>
-        <!-- banner -->
-        <div class="board_banner_area">
-            <div class="board_banner_text">
-                <h1>Community</h1>
-                <p>Check out the news and notices!</p>
-            </div>
-            <img src="img/board_banner_1.jpg" alt="Contact US 배너 이미지">
+              </td>
+              <td class="kboard-list-user">hompion</td>
+              <td class="kboard-list-date">2020.07.30</td>
+              <td class="kboard-list-vote">0</td>
+              <td class="kboard-list-view">8</td>
+            </tr>
+            <tr class="">
+              <td class="kboard-list-uid">11</td>
+              <td class="kboard-list-title">
+                <a href="/tem_board_1/?uid=25&amp;mod=document&amp;pageid=1">
+                  <div class="kboard-default-cut-strings">
+                    웹/앱 UX 기획자를 위한 참고 사이트 정리 <span class="kboard-comments-count"></span>
+                  </div>
+                </a>
+                <div class="kboard-mobile-contents">
+                  <span class="contents-item kboard-user">hompion</span>
+                  <span class="contents-separator kboard-date">|</span>
+                  <span class="contents-item kboard-date">2020.07.30</span>
+                  <span class="contents-separator kboard-vote">|</span>
+                  <span class="contents-item kboard-vote">추천 -1</span>
+                  <span class="contents-separator kboard-view">|</span>
+                  <span class="contents-item kboard-view">조회 24</span>
+                </div>
+              </td>
+              <td class="kboard-list-user">hompion</td>
+              <td class="kboard-list-date">2020.07.30</td>
+              <td class="kboard-list-vote">-1</td>
+              <td class="kboard-list-view">24</td>
+            </tr>
+            <tr class="">
+              <td class="kboard-list-uid"></td>
+              <td class="kboard-list-title" style="padding-left:5px">
+                <a href="/tem_board_1/?uid=111&amp;mod=document&amp;pageid=1">
+                  <div class="kboard-default-cut-strings">
+                    <img src="https://template.hompion.com/wp-content/plugins/kboard/skin/default/images/icon-reply.png"
+                         alt="">
+                    Re:웹/앱 UX 기획자를 위한 참고 사이트 정리 <span class="kboard-comments-count"></span>
+                  </div>
+                </a>
+                <div class="kboard-mobile-contents">
+                  <span class="contents-item kboard-user">99</span>
+                  <span class="contents-separator kboard-date">|</span>
+                  <span class="contents-item kboard-date">2021.11.12</span>
+                  <span class="contents-separator kboard-vote">|</span>
+                  <span class="contents-item kboard-vote">추천 0</span>
+                  <span class="contents-separator kboard-view">|</span>
+                  <span class="contents-item kboard-view">조회 2</span>
+                </div>
+              </td>
+              <td class="kboard-list-user">99</td>
+              <td class="kboard-list-date">2021.11.12</td>
+              <td class="kboard-list-vote">0</td>
+              <td class="kboard-list-view">2</td>
+            </tr>
+            <tr class="">
+              <td class="kboard-list-uid"></td>
+              <td class="kboard-list-title" style="padding-left:10px">
+                <a href="/tem_board_1/?uid=113&amp;mod=document&amp;pageid=1">
+                  <div class="kboard-default-cut-strings">
+                    <img src="https://template.hompion.com/wp-content/plugins/kboard/skin/default/images/icon-reply.png"
+                         alt="">
+                    Re:Re:웹/앱 UX 기획자를 위한 참고 사이트 정리 <span class="kboard-comments-count"></span>
+                  </div>
+                </a>
+                <div class="kboard-mobile-contents">
+                  <span class="contents-item kboard-user">77</span>
+                  <span class="contents-separator kboard-date">|</span>
+                  <span class="contents-item kboard-date">2021.11.12</span>
+                  <span class="contents-separator kboard-vote">|</span>
+                  <span class="contents-item kboard-vote">추천 0</span>
+                  <span class="contents-separator kboard-view">|</span>
+                  <span class="contents-item kboard-view">조회 4</span>
+                </div>
+              </td>
+              <td class="kboard-list-user">77</td>
+              <td class="kboard-list-date">2021.11.12</td>
+              <td class="kboard-list-vote">0</td>
+              <td class="kboard-list-view">4</td>
+            </tr>
+            <tr class="">
+              <td class="kboard-list-uid"></td>
+              <td class="kboard-list-title" style="padding-left:5px">
+                <a href="/tem_board_1/?uid=112&amp;mod=document&amp;pageid=1">
+                  <div class="kboard-default-cut-strings">
+                    <img src="https://template.hompion.com/wp-content/plugins/kboard/skin/default/images/icon-reply.png"
+                         alt="">
+                    Re:웹/앱 UX 기획자를 위한 참고 사이트 정리 <span class="kboard-comments-count"></span>
+                  </div>
+                </a>
+                <div class="kboard-mobile-contents">
+                  <span class="contents-item kboard-user">88</span>
+                  <span class="contents-separator kboard-date">|</span>
+                  <span class="contents-item kboard-date">2021.11.12</span>
+                  <span class="contents-separator kboard-vote">|</span>
+                  <span class="contents-item kboard-vote">추천 0</span>
+                  <span class="contents-separator kboard-view">|</span>
+                  <span class="contents-item kboard-view">조회 2</span>
+                </div>
+              </td>
+              <td class="kboard-list-user">88</td>
+              <td class="kboard-list-date">2021.11.12</td>
+              <td class="kboard-list-vote">0</td>
+              <td class="kboard-list-view">2</td>
+            </tr>
+            <tr class="">
+              <td class="kboard-list-uid">10</td>
+              <td class="kboard-list-title">
+                <a href="/tem_board_1/?uid=24&amp;mod=document&amp;pageid=1">
+                  <div class="kboard-default-cut-strings">
+                    2020 Design Trends <span class="kboard-comments-count"></span>
+                  </div>
+                </a>
+                <div class="kboard-mobile-contents">
+                  <span class="contents-item kboard-user">hompion</span>
+                  <span class="contents-separator kboard-date">|</span>
+                  <span class="contents-item kboard-date">2020.07.30</span>
+                  <span class="contents-separator kboard-vote">|</span>
+                  <span class="contents-item kboard-vote">추천 0</span>
+                  <span class="contents-separator kboard-view">|</span>
+                  <span class="contents-item kboard-view">조회 9</span>
+                </div>
+              </td>
+              <td class="kboard-list-user">hompion</td>
+              <td class="kboard-list-date">2020.07.30</td>
+              <td class="kboard-list-vote">0</td>
+              <td class="kboard-list-view">9</td>
+            </tr>
+            <tr class="">
+              <td class="kboard-list-uid">9</td>
+              <td class="kboard-list-title">
+                <a href="/tem_board_1/?uid=23&amp;mod=document&amp;pageid=1">
+                  <div class="kboard-default-cut-strings">
+                    What is the Noto design? <span class="kboard-comments-count"></span>
+                  </div>
+                </a>
+                <div class="kboard-mobile-contents">
+                  <span class="contents-item kboard-user">hompion</span>
+                  <span class="contents-separator kboard-date">|</span>
+                  <span class="contents-item kboard-date">2020.07.30</span>
+                  <span class="contents-separator kboard-vote">|</span>
+                  <span class="contents-item kboard-vote">추천 0</span>
+                  <span class="contents-separator kboard-view">|</span>
+                  <span class="contents-item kboard-view">조회 6</span>
+                </div>
+              </td>
+              <td class="kboard-list-user">hompion</td>
+              <td class="kboard-list-date">2020.07.30</td>
+              <td class="kboard-list-vote">0</td>
+              <td class="kboard-list-view">6</td>
+            </tr>
+            <tr class="">
+              <td class="kboard-list-uid">8</td>
+              <td class="kboard-list-title">
+                <a href="/tem_board_1/?uid=22&amp;mod=document&amp;pageid=1">
+                  <div class="kboard-default-cut-strings">
+                    모바일웹의 미래를 이야기하다 <span class="kboard-comments-count"></span>
+                  </div>
+                </a>
+                <div class="kboard-mobile-contents">
+                  <span class="contents-item kboard-user">hompion</span>
+                  <span class="contents-separator kboard-date">|</span>
+                  <span class="contents-item kboard-date">2020.07.30</span>
+                  <span class="contents-separator kboard-vote">|</span>
+                  <span class="contents-item kboard-vote">추천 0</span>
+                  <span class="contents-separator kboard-view">|</span>
+                  <span class="contents-item kboard-view">조회 8</span>
+                </div>
+              </td>
+              <td class="kboard-list-user">hompion</td>
+              <td class="kboard-list-date">2020.07.30</td>
+              <td class="kboard-list-vote">0</td>
+              <td class="kboard-list-view">8</td>
+            </tr>
+            <tr class="">
+              <td class="kboard-list-uid">7</td>
+              <td class="kboard-list-title">
+                <a href="/tem_board_1/?uid=21&amp;mod=document&amp;pageid=1">
+                  <div class="kboard-default-cut-strings">
+                    시스템 점검 안내 <span class="kboard-comments-count"></span>
+                  </div>
+                </a>
+                <div class="kboard-mobile-contents">
+                  <span class="contents-item kboard-user">hompion</span>
+                  <span class="contents-separator kboard-date">|</span>
+                  <span class="contents-item kboard-date">2020.07.30</span>
+                  <span class="contents-separator kboard-vote">|</span>
+                  <span class="contents-item kboard-vote">추천 0</span>
+                  <span class="contents-separator kboard-view">|</span>
+                  <span class="contents-item kboard-view">조회 6</span>
+                </div>
+              </td>
+              <td class="kboard-list-user">hompion</td>
+              <td class="kboard-list-date">2020.07.30</td>
+              <td class="kboard-list-vote">0</td>
+              <td class="kboard-list-view">6</td>
+            </tr>
+            <tr class="">
+              <td class="kboard-list-uid">6</td>
+              <td class="kboard-list-title">
+                <a href="/tem_board_1/?uid=20&amp;mod=document&amp;pageid=1">
+                  <div class="kboard-default-cut-strings">
+                    고객님들이 가장 많이 하는 질문입니다 <span class="kboard-comments-count"></span>
+                  </div>
+                </a>
+                <div class="kboard-mobile-contents">
+                  <span class="contents-item kboard-user">hompion</span>
+                  <span class="contents-separator kboard-date">|</span>
+                  <span class="contents-item kboard-date">2020.07.30</span>
+                  <span class="contents-separator kboard-vote">|</span>
+                  <span class="contents-item kboard-vote">추천 0</span>
+                  <span class="contents-separator kboard-view">|</span>
+                  <span class="contents-item kboard-view">조회 4</span>
+                </div>
+              </td>
+              <td class="kboard-list-user">hompion</td>
+              <td class="kboard-list-date">2020.07.30</td>
+              <td class="kboard-list-vote">0</td>
+              <td class="kboard-list-view">4</td>
+            </tr>
+            <tr class="">
+              <td class="kboard-list-uid">5</td>
+              <td class="kboard-list-title">
+                <a href="/tem_board_1/?uid=19&amp;mod=document&amp;pageid=1">
+                  <div class="kboard-default-cut-strings">
+                    스타트업 웹서비스 어떻게 만들까? <span class="kboard-comments-count"></span>
+                  </div>
+                </a>
+                <div class="kboard-mobile-contents">
+                  <span class="contents-item kboard-user">hompion</span>
+                  <span class="contents-separator kboard-date">|</span>
+                  <span class="contents-item kboard-date">2020.07.30</span>
+                  <span class="contents-separator kboard-vote">|</span>
+                  <span class="contents-item kboard-vote">추천 0</span>
+                  <span class="contents-separator kboard-view">|</span>
+                  <span class="contents-item kboard-view">조회 5</span>
+                </div>
+              </td>
+              <td class="kboard-list-user">hompion</td>
+              <td class="kboard-list-date">2020.07.30</td>
+              <td class="kboard-list-vote">0</td>
+              <td class="kboard-list-view">5</td>
+            </tr>
+            <tr class="">
+              <td class="kboard-list-uid">4</td>
+              <td class="kboard-list-title">
+                <a href="/tem_board_1/?uid=18&amp;mod=document&amp;pageid=1">
+                  <div class="kboard-default-cut-strings">
+                    그 스타트업은 왜 실패했을까? <span class="kboard-comments-count"></span>
+                  </div>
+                </a>
+                <div class="kboard-mobile-contents">
+                  <span class="contents-item kboard-user">hompion</span>
+                  <span class="contents-separator kboard-date">|</span>
+                  <span class="contents-item kboard-date">2020.07.30</span>
+                  <span class="contents-separator kboard-vote">|</span>
+                  <span class="contents-item kboard-vote">추천 0</span>
+                  <span class="contents-separator kboard-view">|</span>
+                  <span class="contents-item kboard-view">조회 5</span>
+                </div>
+              </td>
+              <td class="kboard-list-user">hompion</td>
+              <td class="kboard-list-date">2020.07.30</td>
+              <td class="kboard-list-vote">0</td>
+              <td class="kboard-list-view">5</td>
+            </tr>
+            <tr class="">
+              <td class="kboard-list-uid">3</td>
+              <td class="kboard-list-title">
+                <a href="/tem_board_1/?uid=17&amp;mod=document&amp;pageid=1">
+                  <div class="kboard-default-cut-strings">
+                    나는 성공할 수 있을까? <span class="kboard-comments-count"></span>
+                  </div>
+                </a>
+                <div class="kboard-mobile-contents">
+                  <span class="contents-item kboard-user">hompion</span>
+                  <span class="contents-separator kboard-date">|</span>
+                  <span class="contents-item kboard-date">2020.07.30</span>
+                  <span class="contents-separator kboard-vote">|</span>
+                  <span class="contents-item kboard-vote">추천 0</span>
+                  <span class="contents-separator kboard-view">|</span>
+                  <span class="contents-item kboard-view">조회 3</span>
+                </div>
+              </td>
+              <td class="kboard-list-user">hompion</td>
+              <td class="kboard-list-date">2020.07.30</td>
+              <td class="kboard-list-vote">0</td>
+              <td class="kboard-list-view">3</td>
+            </tr>
+            <tr class="">
+              <td class="kboard-list-uid">2</td>
+              <td class="kboard-list-title">
+                <a href="/tem_board_1/?uid=15&amp;mod=document&amp;pageid=1">
+                  <div class="kboard-default-cut-strings">
+                    쏟아지는 웹브라우저, 무엇을 선택해야 하나 <span class="kboard-comments-count"></span>
+                  </div>
+                </a>
+                <div class="kboard-mobile-contents">
+                  <span class="contents-item kboard-user">hompion</span>
+                  <span class="contents-separator kboard-date">|</span>
+                  <span class="contents-item kboard-date">2020.07.30</span>
+                  <span class="contents-separator kboard-vote">|</span>
+                  <span class="contents-item kboard-vote">추천 0</span>
+                  <span class="contents-separator kboard-view">|</span>
+                  <span class="contents-item kboard-view">조회 8</span>
+                </div>
+              </td>
+              <td class="kboard-list-user">hompion</td>
+              <td class="kboard-list-date">2020.07.30</td>
+              <td class="kboard-list-vote">0</td>
+              <td class="kboard-list-view">8</td>
+            </tr>
+            </tbody>
+          </table>
         </div>
+        <!-- 리스트 끝 -->
 
-        <div class="container">
-        <div>
-            <h1>자유게시판</h1>
+        <!-- 페이징 시작 -->
+        <div class="kboard-pagination">
+          <ul class="kboard-pagination-pages">
+            <li class="active"><a href="?pageid=1&amp;mod=list" onclick="return false">1</a></li>
+            <li><a href="?pageid=2&amp;mod=list">2</a></li>
+            <li class="next-page"><a href="?pageid=2&amp;mod=list">»</a></li>
+            <li class="last-page"><a href="?pageid=2&amp;mod=list">마지막</a></li>
+          </ul>
         </div>
+        <!-- 페이징 끝 -->
 
-
-
-        <div class="wp_notice_wrap">
-            <div class="wp_notice_title">
-                <h1>NOTICE</h1>
-            </div>
-            <div class="wp_notice_area">
-                <div id="kboard-default-list">
-
-                    <!-- 게시판 정보 시작 -->
-                    <div class="kboard-list-header">
-                        <div class="kboard-total-count">
-                            전체 15			</div>
-
-                        <div class="kboard-sort">
-                            <form id="kboard-sort-form-1" method="get" action="/tem_board_1/">
-                                <input type="hidden" name="mod" value="list"><input type="hidden" name="pageid" value="1"><input type="hidden" name="kboard_list_sort_remember" value="1">
-                                <select name="kboard_list_sort" onchange="jQuery('#kboard-sort-form-1').submit();">
-                                    <option value="newest" selected="">최신순</option>
-                                    <option value="best">추천순</option>
-                                    <option value="viewed">조회순</option>
-                                    <option value="updated">업데이트순</option>
-                                </select>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- 게시판 정보 끝 -->
-
-                    <!-- 카테고리 시작 -->
-                    <!-- 카테고리 끝 -->
-
-                    <!-- 리스트 시작 -->
-                    <div class="kboard-list">
-                        <table>
-                            <thead>
-                            <tr>
-                                <td class="kboard-list-uid">번호</td>
-                                <td class="kboard-list-title">제목</td>
-                                <td class="kboard-list-user">작성자</td>
-                                <td class="kboard-list-date">작성일</td>
-                                <td class="kboard-list-vote">추천</td>
-                                <td class="kboard-list-view">조회</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr class="kboard-list-notice">
-                                <td class="kboard-list-uid">공지사항</td>
-                                <td class="kboard-list-title">
-                                    <a href="/tem_board_1/?uid=16&amp;mod=document&amp;pageid=1">
-                                        <div class="kboard-default-cut-strings">
-                                            무제한으로 웹사이트를 만드세요.								<span class="kboard-comments-count"></span>
-                                        </div>
-                                    </a>
-                                    <div class="kboard-mobile-contents">
-                                        <span class="contents-item kboard-user">hompion</span>
-                                        <span class="contents-separator kboard-date">|</span>
-                                        <span class="contents-item kboard-date">2020.07.30</span>
-                                        <span class="contents-separator kboard-vote">|</span>
-                                        <span class="contents-item kboard-vote">추천 0</span>
-                                        <span class="contents-separator kboard-view">|</span>
-                                        <span class="contents-item kboard-view">조회 8</span>
-                                    </div>
-                                </td>
-                                <td class="kboard-list-user">hompion</td>
-                                <td class="kboard-list-date">2020.07.30</td>
-                                <td class="kboard-list-vote">0</td>
-                                <td class="kboard-list-view">8</td>
-                            </tr>
-                            <tr class="">
-                                <td class="kboard-list-uid">11</td>
-                                <td class="kboard-list-title">
-                                    <a href="/tem_board_1/?uid=25&amp;mod=document&amp;pageid=1">
-                                        <div class="kboard-default-cut-strings">
-                                            웹/앱 UX 기획자를 위한 참고 사이트 정리								<span class="kboard-comments-count"></span>
-                                        </div>
-                                    </a>
-                                    <div class="kboard-mobile-contents">
-                                        <span class="contents-item kboard-user">hompion</span>
-                                        <span class="contents-separator kboard-date">|</span>
-                                        <span class="contents-item kboard-date">2020.07.30</span>
-                                        <span class="contents-separator kboard-vote">|</span>
-                                        <span class="contents-item kboard-vote">추천 -1</span>
-                                        <span class="contents-separator kboard-view">|</span>
-                                        <span class="contents-item kboard-view">조회 24</span>
-                                    </div>
-                                </td>
-                                <td class="kboard-list-user">hompion</td>
-                                <td class="kboard-list-date">2020.07.30</td>
-                                <td class="kboard-list-vote">-1</td>
-                                <td class="kboard-list-view">24</td>
-                            </tr>
-                            <tr class="">
-                                <td class="kboard-list-uid"></td>
-                                <td class="kboard-list-title" style="padding-left:5px">
-                                    <a href="/tem_board_1/?uid=111&amp;mod=document&amp;pageid=1">
-                                        <div class="kboard-default-cut-strings">
-                                            <img src="https://template.hompion.com/wp-content/plugins/kboard/skin/default/images/icon-reply.png" alt="">
-                                            Re:웹/앱 UX 기획자를 위한 참고 사이트 정리				<span class="kboard-comments-count"></span>
-                                        </div>
-                                    </a>
-                                    <div class="kboard-mobile-contents">
-                                        <span class="contents-item kboard-user">99</span>
-                                        <span class="contents-separator kboard-date">|</span>
-                                        <span class="contents-item kboard-date">2021.11.12</span>
-                                        <span class="contents-separator kboard-vote">|</span>
-                                        <span class="contents-item kboard-vote">추천 0</span>
-                                        <span class="contents-separator kboard-view">|</span>
-                                        <span class="contents-item kboard-view">조회 2</span>
-                                    </div>
-                                </td>
-                                <td class="kboard-list-user">99</td>
-                                <td class="kboard-list-date">2021.11.12</td>
-                                <td class="kboard-list-vote">0</td>
-                                <td class="kboard-list-view">2</td>
-                            </tr>
-                            <tr class="">
-                                <td class="kboard-list-uid"></td>
-                                <td class="kboard-list-title" style="padding-left:10px">
-                                    <a href="/tem_board_1/?uid=113&amp;mod=document&amp;pageid=1">
-                                        <div class="kboard-default-cut-strings">
-                                            <img src="https://template.hompion.com/wp-content/plugins/kboard/skin/default/images/icon-reply.png" alt="">
-                                            Re:Re:웹/앱 UX 기획자를 위한 참고 사이트 정리				<span class="kboard-comments-count"></span>
-                                        </div>
-                                    </a>
-                                    <div class="kboard-mobile-contents">
-                                        <span class="contents-item kboard-user">77</span>
-                                        <span class="contents-separator kboard-date">|</span>
-                                        <span class="contents-item kboard-date">2021.11.12</span>
-                                        <span class="contents-separator kboard-vote">|</span>
-                                        <span class="contents-item kboard-vote">추천 0</span>
-                                        <span class="contents-separator kboard-view">|</span>
-                                        <span class="contents-item kboard-view">조회 4</span>
-                                    </div>
-                                </td>
-                                <td class="kboard-list-user">77</td>
-                                <td class="kboard-list-date">2021.11.12</td>
-                                <td class="kboard-list-vote">0</td>
-                                <td class="kboard-list-view">4</td>
-                            </tr>
-                            <tr class="">
-                                <td class="kboard-list-uid"></td>
-                                <td class="kboard-list-title" style="padding-left:5px">
-                                    <a href="/tem_board_1/?uid=112&amp;mod=document&amp;pageid=1">
-                                        <div class="kboard-default-cut-strings">
-                                            <img src="https://template.hompion.com/wp-content/plugins/kboard/skin/default/images/icon-reply.png" alt="">
-                                            Re:웹/앱 UX 기획자를 위한 참고 사이트 정리				<span class="kboard-comments-count"></span>
-                                        </div>
-                                    </a>
-                                    <div class="kboard-mobile-contents">
-                                        <span class="contents-item kboard-user">88</span>
-                                        <span class="contents-separator kboard-date">|</span>
-                                        <span class="contents-item kboard-date">2021.11.12</span>
-                                        <span class="contents-separator kboard-vote">|</span>
-                                        <span class="contents-item kboard-vote">추천 0</span>
-                                        <span class="contents-separator kboard-view">|</span>
-                                        <span class="contents-item kboard-view">조회 2</span>
-                                    </div>
-                                </td>
-                                <td class="kboard-list-user">88</td>
-                                <td class="kboard-list-date">2021.11.12</td>
-                                <td class="kboard-list-vote">0</td>
-                                <td class="kboard-list-view">2</td>
-                            </tr>
-                            <tr class="">
-                                <td class="kboard-list-uid">10</td>
-                                <td class="kboard-list-title">
-                                    <a href="/tem_board_1/?uid=24&amp;mod=document&amp;pageid=1">
-                                        <div class="kboard-default-cut-strings">
-                                            2020 Design Trends								<span class="kboard-comments-count"></span>
-                                        </div>
-                                    </a>
-                                    <div class="kboard-mobile-contents">
-                                        <span class="contents-item kboard-user">hompion</span>
-                                        <span class="contents-separator kboard-date">|</span>
-                                        <span class="contents-item kboard-date">2020.07.30</span>
-                                        <span class="contents-separator kboard-vote">|</span>
-                                        <span class="contents-item kboard-vote">추천 0</span>
-                                        <span class="contents-separator kboard-view">|</span>
-                                        <span class="contents-item kboard-view">조회 9</span>
-                                    </div>
-                                </td>
-                                <td class="kboard-list-user">hompion</td>
-                                <td class="kboard-list-date">2020.07.30</td>
-                                <td class="kboard-list-vote">0</td>
-                                <td class="kboard-list-view">9</td>
-                            </tr>
-                            <tr class="">
-                                <td class="kboard-list-uid">9</td>
-                                <td class="kboard-list-title">
-                                    <a href="/tem_board_1/?uid=23&amp;mod=document&amp;pageid=1">
-                                        <div class="kboard-default-cut-strings">
-                                            What is the Noto design?								<span class="kboard-comments-count"></span>
-                                        </div>
-                                    </a>
-                                    <div class="kboard-mobile-contents">
-                                        <span class="contents-item kboard-user">hompion</span>
-                                        <span class="contents-separator kboard-date">|</span>
-                                        <span class="contents-item kboard-date">2020.07.30</span>
-                                        <span class="contents-separator kboard-vote">|</span>
-                                        <span class="contents-item kboard-vote">추천 0</span>
-                                        <span class="contents-separator kboard-view">|</span>
-                                        <span class="contents-item kboard-view">조회 6</span>
-                                    </div>
-                                </td>
-                                <td class="kboard-list-user">hompion</td>
-                                <td class="kboard-list-date">2020.07.30</td>
-                                <td class="kboard-list-vote">0</td>
-                                <td class="kboard-list-view">6</td>
-                            </tr>
-                            <tr class="">
-                                <td class="kboard-list-uid">8</td>
-                                <td class="kboard-list-title">
-                                    <a href="/tem_board_1/?uid=22&amp;mod=document&amp;pageid=1">
-                                        <div class="kboard-default-cut-strings">
-                                            모바일웹의 미래를 이야기하다								<span class="kboard-comments-count"></span>
-                                        </div>
-                                    </a>
-                                    <div class="kboard-mobile-contents">
-                                        <span class="contents-item kboard-user">hompion</span>
-                                        <span class="contents-separator kboard-date">|</span>
-                                        <span class="contents-item kboard-date">2020.07.30</span>
-                                        <span class="contents-separator kboard-vote">|</span>
-                                        <span class="contents-item kboard-vote">추천 0</span>
-                                        <span class="contents-separator kboard-view">|</span>
-                                        <span class="contents-item kboard-view">조회 8</span>
-                                    </div>
-                                </td>
-                                <td class="kboard-list-user">hompion</td>
-                                <td class="kboard-list-date">2020.07.30</td>
-                                <td class="kboard-list-vote">0</td>
-                                <td class="kboard-list-view">8</td>
-                            </tr>
-                            <tr class="">
-                                <td class="kboard-list-uid">7</td>
-                                <td class="kboard-list-title">
-                                    <a href="/tem_board_1/?uid=21&amp;mod=document&amp;pageid=1">
-                                        <div class="kboard-default-cut-strings">
-                                            시스템 점검 안내								<span class="kboard-comments-count"></span>
-                                        </div>
-                                    </a>
-                                    <div class="kboard-mobile-contents">
-                                        <span class="contents-item kboard-user">hompion</span>
-                                        <span class="contents-separator kboard-date">|</span>
-                                        <span class="contents-item kboard-date">2020.07.30</span>
-                                        <span class="contents-separator kboard-vote">|</span>
-                                        <span class="contents-item kboard-vote">추천 0</span>
-                                        <span class="contents-separator kboard-view">|</span>
-                                        <span class="contents-item kboard-view">조회 6</span>
-                                    </div>
-                                </td>
-                                <td class="kboard-list-user">hompion</td>
-                                <td class="kboard-list-date">2020.07.30</td>
-                                <td class="kboard-list-vote">0</td>
-                                <td class="kboard-list-view">6</td>
-                            </tr>
-                            <tr class="">
-                                <td class="kboard-list-uid">6</td>
-                                <td class="kboard-list-title">
-                                    <a href="/tem_board_1/?uid=20&amp;mod=document&amp;pageid=1">
-                                        <div class="kboard-default-cut-strings">
-                                            고객님들이 가장 많이 하는 질문입니다								<span class="kboard-comments-count"></span>
-                                        </div>
-                                    </a>
-                                    <div class="kboard-mobile-contents">
-                                        <span class="contents-item kboard-user">hompion</span>
-                                        <span class="contents-separator kboard-date">|</span>
-                                        <span class="contents-item kboard-date">2020.07.30</span>
-                                        <span class="contents-separator kboard-vote">|</span>
-                                        <span class="contents-item kboard-vote">추천 0</span>
-                                        <span class="contents-separator kboard-view">|</span>
-                                        <span class="contents-item kboard-view">조회 4</span>
-                                    </div>
-                                </td>
-                                <td class="kboard-list-user">hompion</td>
-                                <td class="kboard-list-date">2020.07.30</td>
-                                <td class="kboard-list-vote">0</td>
-                                <td class="kboard-list-view">4</td>
-                            </tr>
-                            <tr class="">
-                                <td class="kboard-list-uid">5</td>
-                                <td class="kboard-list-title">
-                                    <a href="/tem_board_1/?uid=19&amp;mod=document&amp;pageid=1">
-                                        <div class="kboard-default-cut-strings">
-                                            스타트업 웹서비스 어떻게 만들까?								<span class="kboard-comments-count"></span>
-                                        </div>
-                                    </a>
-                                    <div class="kboard-mobile-contents">
-                                        <span class="contents-item kboard-user">hompion</span>
-                                        <span class="contents-separator kboard-date">|</span>
-                                        <span class="contents-item kboard-date">2020.07.30</span>
-                                        <span class="contents-separator kboard-vote">|</span>
-                                        <span class="contents-item kboard-vote">추천 0</span>
-                                        <span class="contents-separator kboard-view">|</span>
-                                        <span class="contents-item kboard-view">조회 5</span>
-                                    </div>
-                                </td>
-                                <td class="kboard-list-user">hompion</td>
-                                <td class="kboard-list-date">2020.07.30</td>
-                                <td class="kboard-list-vote">0</td>
-                                <td class="kboard-list-view">5</td>
-                            </tr>
-                            <tr class="">
-                                <td class="kboard-list-uid">4</td>
-                                <td class="kboard-list-title">
-                                    <a href="/tem_board_1/?uid=18&amp;mod=document&amp;pageid=1">
-                                        <div class="kboard-default-cut-strings">
-                                            그 스타트업은 왜 실패했을까?								<span class="kboard-comments-count"></span>
-                                        </div>
-                                    </a>
-                                    <div class="kboard-mobile-contents">
-                                        <span class="contents-item kboard-user">hompion</span>
-                                        <span class="contents-separator kboard-date">|</span>
-                                        <span class="contents-item kboard-date">2020.07.30</span>
-                                        <span class="contents-separator kboard-vote">|</span>
-                                        <span class="contents-item kboard-vote">추천 0</span>
-                                        <span class="contents-separator kboard-view">|</span>
-                                        <span class="contents-item kboard-view">조회 5</span>
-                                    </div>
-                                </td>
-                                <td class="kboard-list-user">hompion</td>
-                                <td class="kboard-list-date">2020.07.30</td>
-                                <td class="kboard-list-vote">0</td>
-                                <td class="kboard-list-view">5</td>
-                            </tr>
-                            <tr class="">
-                                <td class="kboard-list-uid">3</td>
-                                <td class="kboard-list-title">
-                                    <a href="/tem_board_1/?uid=17&amp;mod=document&amp;pageid=1">
-                                        <div class="kboard-default-cut-strings">
-                                            나는 성공할 수 있을까?								<span class="kboard-comments-count"></span>
-                                        </div>
-                                    </a>
-                                    <div class="kboard-mobile-contents">
-                                        <span class="contents-item kboard-user">hompion</span>
-                                        <span class="contents-separator kboard-date">|</span>
-                                        <span class="contents-item kboard-date">2020.07.30</span>
-                                        <span class="contents-separator kboard-vote">|</span>
-                                        <span class="contents-item kboard-vote">추천 0</span>
-                                        <span class="contents-separator kboard-view">|</span>
-                                        <span class="contents-item kboard-view">조회 3</span>
-                                    </div>
-                                </td>
-                                <td class="kboard-list-user">hompion</td>
-                                <td class="kboard-list-date">2020.07.30</td>
-                                <td class="kboard-list-vote">0</td>
-                                <td class="kboard-list-view">3</td>
-                            </tr>
-                            <tr class="">
-                                <td class="kboard-list-uid">2</td>
-                                <td class="kboard-list-title">
-                                    <a href="/tem_board_1/?uid=15&amp;mod=document&amp;pageid=1">
-                                        <div class="kboard-default-cut-strings">
-                                            쏟아지는 웹브라우저, 무엇을 선택해야 하나								<span class="kboard-comments-count"></span>
-                                        </div>
-                                    </a>
-                                    <div class="kboard-mobile-contents">
-                                        <span class="contents-item kboard-user">hompion</span>
-                                        <span class="contents-separator kboard-date">|</span>
-                                        <span class="contents-item kboard-date">2020.07.30</span>
-                                        <span class="contents-separator kboard-vote">|</span>
-                                        <span class="contents-item kboard-vote">추천 0</span>
-                                        <span class="contents-separator kboard-view">|</span>
-                                        <span class="contents-item kboard-view">조회 8</span>
-                                    </div>
-                                </td>
-                                <td class="kboard-list-user">hompion</td>
-                                <td class="kboard-list-date">2020.07.30</td>
-                                <td class="kboard-list-vote">0</td>
-                                <td class="kboard-list-view">8</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- 리스트 끝 -->
-
-                    <!-- 페이징 시작 -->
-                    <div class="kboard-pagination">
-                        <ul class="kboard-pagination-pages">
-                            <li class="active"><a href="?pageid=1&amp;mod=list" onclick="return false">1</a></li><li><a href="?pageid=2&amp;mod=list">2</a></li><li class="next-page"><a href="?pageid=2&amp;mod=list">»</a></li><li class="last-page"><a href="?pageid=2&amp;mod=list">마지막</a></li>		</ul>
-                    </div>
-                    <!-- 페이징 끝 -->
-
-                    <!-- 검색폼 시작 -->
-                    <div class="kboard-search">
-                        <form id="kboard-search-form-1" method="get" action="/tem_board_1/?pageid=1">
-                            <input type="hidden" name="mod" value="list"><input type="hidden" name="pageid" value="1">
-                            <select name="target">
-                                <option value="">전체</option>
-                                <option value="title">제목</option>
-                                <option value="content">내용</option>
-                                <option value="member_display">작성자</option>
-                            </select>
-                            <input type="text" name="keyword" value="">
-                            <button type="submit" class="kboard-default-button-small">검색</button>
-                        </form>
-                    </div>
-                    <!-- 검색폼 끝 -->
-
-                    <!-- 버튼 시작 -->
-                    <div class="kboard-control">
-                        <a href="/tem_board_1/?mod=editor&amp;pageid=1" class="kboard-default-button-small">글쓰기</a>
-                    </div>
-                    <!-- 버튼 끝 -->
-
-                </div>            </div><!--wp_notice_area end-->
+        <!-- 검색폼 시작 -->
+        <div class="kboard-search">
+          <form id="kboard-search-form-1" method="get" action="/tem_board_1/?pageid=1">
+            <input type="hidden" name="mod" value="list"><input type="hidden" name="pageid" value="1">
+            <select name="target">
+              <option value="">전체</option>
+              <option value="title">제목</option>
+              <option value="content">내용</option>
+              <option value="member_display">작성자</option>
+            </select>
+            <input type="text" name="keyword" value="">
+            <button type="submit" class="kboard-default-button-small">검색</button>
+          </form>
         </div>
-        </div>
+        <!-- 검색폼 끝 -->
 
-        <!-- Footer-->
-        <footer class="footer bg-white small text-center text-black-50">
-            <div class="container px-4 px-lg-5">Copyright &copy; 우아한1팀 Website 2022</div>
-        </footer>
-        <!-- jQuery -->
-        <script src="https://code.jquery.com/jquery-3.6.1.js"
-                integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
-                crossorigin="anonymous"></script>
-        <!-- JS Bootstrap -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-    </body>
+        <!-- 버튼 시작 -->
+        <div class="kboard-control">
+          <a href="/tem_board_1/?mod=editor&amp;pageid=1" class="kboard-default-button-small">글쓰기</a>
+        </div>
+        <!-- 버튼 끝 -->
+
+      </div>
+    </div><!--wp_notice_area end-->
+  </div>
+</div>
+
+<!-- Footer-->
+<footer class="footer bg-white small text-center text-black-50">
+  <div class="container px-4 px-lg-5">Copyright &copy; 우아한1팀 Website 2022</div>
+</footer>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.1.js"
+        integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+        crossorigin="anonymous"></script>
+<!-- JS Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+</body>
 </html>
