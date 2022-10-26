@@ -26,8 +26,8 @@ public class TournamentController {
   public String tournament(Model model) {
     List<Tournament> list = tournamentService.getTournamentList();
     model.addAttribute("list", list);
-    List<Local> local = tournamentService.getLocalList();
-    model.addAttribute("local", local);
+    List<Local> locals = tournamentService.getLocalList();
+    model.addAttribute("locals", locals);
     return "/tournament";
   }
 }

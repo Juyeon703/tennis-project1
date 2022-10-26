@@ -17,6 +17,6 @@ public class HomeController {
 
   @GetMapping("/other")
   public String other() {
-    return "other";
+    return "clubHome";
   }
 }
