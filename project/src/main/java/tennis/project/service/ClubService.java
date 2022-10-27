@@ -54,5 +54,7 @@ public class ClubService {
       .filter(clubMember -> clubMember.getClub().getId() == clubId).toList();
   }
 
-
+public ClubMember ClubMemberCheck(Long clubId, Long memberId) {
+    return clubMemberRepository.exist(clubId, memberId).orElse(null);
+}
 }

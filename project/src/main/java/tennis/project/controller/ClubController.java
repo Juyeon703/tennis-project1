@@ -18,6 +18,7 @@ import tennis.project.service.TournamentService;
 import tennis.project.web.SessionConst;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Slf4j
@@ -39,12 +40,21 @@ public class ClubController {
   }
 
   @GetMapping("/club/detail/{clubId}")
-  public String ClubDetail(@PathVariable("clubId") Long clubId, Model model) {
+  public String ClubDetail(@PathVariable("clubId") Long clubId, Model model, HttpServletRequest request) {
 
     Club club = clubService.findOne(clubId);
     model.addAttribute("club", club);
+
     List<ClubMember> memberList = clubService.getClubMemberList(club.getId());
     model.addAttribute("memberList", memberList);
+
+    HttpSession session = request.getSession(false);
+
+    if (session != null) {
+      Member member = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+      ClubMember clubMemberCheck = clubService.ClubMemberCheck(clubId, member.getId());
+      model.addAttribute("clubMemberCheck", clubMemberCheck);
+    }
 
     return "club/clubDetail";
   }
@@ -61,7 +71,7 @@ public class ClubController {
 
   @PostMapping("/club/save")
   public String ClubSave(@Validated @ModelAttribute("form") ClubForm form, BindingResult bindingResult,
-                          HttpServletRequest request) {
+                         HttpServletRequest request) {
 
     Member member = (Member) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
     form.setLeader(member.getNickname());

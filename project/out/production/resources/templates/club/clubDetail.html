@@ -62,7 +62,6 @@
 <div class="container text-start">
   <div class="row align-items-center">
     <h3>동호회 정보</h3>
-    <HR>
     <div class="row gx-5 gy-3">
       <div class="col-3">
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv_clQkjRnTiKk7zFdWjcoiLm-7jBYDbezzQ&usqp=CAU"
@@ -108,34 +107,38 @@
             <li th:text="${clubMember.member.nickname}"></li>
           </ul>
         </div>
-
       </div>
     </div>
   </div>
 
 
   <div th:if="${session.loginMember != null}">
+    <!-- 회원이면서 클럽장인 사람-->
+    <div th:if="${clubMemberCheck != null}">
+      <div th:if="${clubMemberCheck.member.nickname == club.leader}">
+        <button type="button" class="btn btn-success">동호회 삭제</button>
+        <button type="button" class="btn btn-success">정보 수정</button>
+      </div>
 
-    <div th:if="${session.loginMember.nickname == club.leader}">
-      <button type="button" class="btn btn-success">동호회 삭제</button>
-      <button type="button" class="btn btn-success">정보 수정</button>
+      <!-- 회원이면서 클럽에 가입된 사람 -->
+      <div th:if="${clubMemberCheck.member.nickname != club.leader}">
+        <button type="button" class="btn btn-success">동호회 탈퇴</button>
+      </div>
     </div>
 
-    <div th:if="${!memberList.containsAll(session.loginMember.id)}">
+    <div th:if="${clubMemberCheck == null}">
       <form th:action="@{/club/join}" method="POST">
-        <input type="hidden" th:field="${club.id}">
+        <input type="hidden" th:field="*{club.id}">
         <button type="submit" class="btn btn-success">가입하기</button>
       </form>
     </div>
 
-    <div th:if="${memberList.containsAll(session.loginMember)}">
-      <button type="button" class="btn btn-success">동호회 탈퇴</button>
-    </div>
+
   </div>
 
-<!--
-<div th:each="clubMember:${memberList}"
-     th:if="${session.loginMember.id == clubMember.member.id && session.loginMember.nickname == club.leader}"> -->
+  <!--
+  <div th:each="clubMember:${memberList}"
+       th:if="${session.loginMember.id == clubMember.member.id && session.loginMember.nickname == club.leader}"> -->
 
 
 </div>

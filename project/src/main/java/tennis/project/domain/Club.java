@@ -24,7 +24,7 @@ public class Club implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "club_id")
-  private Long Id;
+  private Long id;
 
   @NotNull
   @Column(length = 16)
