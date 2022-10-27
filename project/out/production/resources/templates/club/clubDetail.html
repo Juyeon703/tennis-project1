@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
   <title>Tennis</title>
-  <link rel="icon" type="image/x-icon" href="img/favicon.ico"/>
   <!-- Google fonts-->
   <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet"/>
   <link
@@ -15,10 +14,8 @@
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
   <!-- CSS -->
   <link href="/css/styles.css" rel="stylesheet"/>
-  <link href="/css/banner.css" rel="stylesheet"/>
-  <link href="/css/localCategory.css" rel="stylesheet"/>
 </head>
-<body>
+<body class="pt-6">
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-shrink" id="mainNav">
   <div class="container px-4 px-lg-5">
@@ -37,7 +34,7 @@
         <li class="nav-item"><a class="nav-link" th:href="@{/tournament}">대회</a></li>
         <li class="nav-item"><a class="nav-link" href="#">랭킹</a></li>
         <li class="nav-item"><a class="nav-link" th:href="@{/boards/home}">커뮤니티</a></li>
-        <li class="nav-item"><a class="nav-link" th:href="@{/other}">동호회</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/club}">동호회</a></li>
       </ul>
       <div class="gap-2 d-md-flex">
         <div th:if="${session.loginMember == null}">
@@ -60,56 +57,89 @@
     </div>
   </div>
 </nav>
-<!-- banner -->
-<div class="board_banner_area">
-  <div class="board_banner_text">
-    <h1>Tournament</h1>
-    <p>Check out the tournament schedule!</p>
-  </div>
-  <img src="/img/tournament_banner3.jpg" alt="배너 이미지">
-</div>
 
-<div class="col-12 p-5"></div>
 
-<!-- category -->
-<div class="container">
-  <div class="category_area">
-    <ul class="category_list">
-      <li id="list_all" class="category active" title="all">전체</li>
-      <li class="category" th:each="local:${locals}"
-          th:id="${local.id}" th:title="${local.id}" th:text="${local.name}"></li>
-    </ul>
-  </div>
-
-  <div class="col-12 p-5"></div>
-
-  <!-- card -->
-  <div class="row justify-content-center">
-    <div class="col-lg-4 col-md-12 mb-4 mb-lg-4 card_area" th:each="tournament:${list}"
-         th:title="${tournament.local.id}">
-      <div class="card">
-        <img th:src="${tournament.image}" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title" th:text="${tournament.title}">Card title</h5>
-          <ul>
-            <li class="card-text" th:text="'장소: ' + ${tournament.place}">장소</li>
-            <li class="card-text" th:text="'신청기간: '"></li>
-            <li class="card-text"
-                th:text="${tournament.applicationStartDate} + ' ~ ' + ${tournament.applicationEndDate}">신청기간
-            </li>
-            <li class="card-text" th:text="'대회기간: '"></li>
-            <li class="card-text" th:text="${tournament.compStartDate} + ' ~ ' + ${tournament.compEndDate}">대회기간</li>
-          </ul>
-          <p class="card-text">
-            Some quick example text to build on the card title and
-            make up the bulk of the card's content.
+<div class="container text-start">
+  <div class="row align-items-center">
+    <h3>동호회 정보</h3>
+    <HR>
+    <div class="row gx-5 gy-3">
+      <div class="col-3">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv_clQkjRnTiKk7zFdWjcoiLm-7jBYDbezzQ&usqp=CAU"
+             class="img-thumbnail" alt="이미지">
+      </div>
+      <div class="col-4">
+        <h4 th:text="${club.name}">동호회 이름</h4>
+        <p th:text="${club.createdDate}">동호회 생성일</p>
+        <ul>
+          <li>지역 :</li>
+          <li th:text="${club.local.name}"></li>
+          <li>모집 상태</li>
+          <li th:text="${club.status}"></li>
+          <li>팀원 수 :</li>
+          <li th:text="${club.memberCount}"></li>
+        </ul>
+      </div>
+      <div class="col-5" style="height: 250px;">
+        <div class="p-3 h-100 border bg-light" style="overflow: scroll">
+          <h4>팀소개</h4>
+          <p th:text="${club.introduction}">
           </p>
-          <a href="#!" class="btn btn-primary">Button</a>
+
         </div>
       </div>
     </div>
+
+    <div class="row gx-5 gy-3">
+      <div class="col-7" style="height: 250px;">
+        <div class="p-3 h-100 border bg-light" style="overflow: scroll">
+          <h4>개인 경기 기록 top10</h4>
+          <ul>
+            <ol>윤모양</ol>
+            <ol>최모양</ol>
+            <ol>김모양</ol>
+          </ul>
+        </div>
+      </div>
+      <div class="col-5" style="height: 250px;">
+        <div class="p-3 h-100 border bg-light" style="overflow: scroll">
+          <h4>선수명단</h4>
+          <ul th:each="clubMember:${memberList}">
+            <li th:text="${clubMember.member.nickname}"></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
   </div>
+
+
+  <div th:if="${session.loginMember != null}">
+
+    <div th:if="${session.loginMember.nickname == club.leader}">
+      <button type="button" class="btn btn-success">동호회 삭제</button>
+      <button type="button" class="btn btn-success">정보 수정</button>
+    </div>
+
+    <div th:if="${!memberList.containsAll(session.loginMember.id)}">
+      <form th:action="@{/club/join}" method="POST">
+        <input type="hidden" th:field="${club.id}">
+        <button type="submit" class="btn btn-success">가입하기</button>
+      </form>
+    </div>
+
+    <div th:if="${memberList.containsAll(session.loginMember)}">
+      <button type="button" class="btn btn-success">동호회 탈퇴</button>
+    </div>
+  </div>
+
+<!--
+<div th:each="clubMember:${memberList}"
+     th:if="${session.loginMember.id == clubMember.member.id && session.loginMember.nickname == club.leader}"> -->
+
+
 </div>
+
 
 <!-- Footer-->
 <footer class="footer bg-white small text-center text-black-50">
@@ -123,6 +153,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
-<script src="/js/localCategory.js"></script>
+
 </body>
 </html>

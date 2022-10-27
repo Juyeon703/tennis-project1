@@ -10,15 +10,17 @@
   <link
     href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
     rel="stylesheet"/>
+  <!-- icon -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
   <!-- CSS Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
   <!-- CSS -->
   <link href="/css/styles.css" rel="stylesheet"/>
   <link href="/css/banner.css" rel="stylesheet"/>
-  <link href="/css/localCategory.css" rel="stylesheet"/>
+  <link href="/css/search.css" rel="stylesheet"/>
 </head>
-<body>
+<body class="pt-6">
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-shrink" id="mainNav">
   <div class="container px-4 px-lg-5">
@@ -37,7 +39,7 @@
         <li class="nav-item"><a class="nav-link" th:href="@{/tournament}">대회</a></li>
         <li class="nav-item"><a class="nav-link" href="#">랭킹</a></li>
         <li class="nav-item"><a class="nav-link" th:href="@{/boards/home}">커뮤니티</a></li>
-        <li class="nav-item"><a class="nav-link" th:href="@{/other}">동호회</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/club}">동호회</a></li>
       </ul>
       <div class="gap-2 d-md-flex">
         <div th:if="${session.loginMember == null}">
@@ -74,8 +76,8 @@
 <div class="container">
 
   <h4>동호회</h4>
-  <div class="g-col-4">
-  <div class="input-group input-group-sm mb-3 w-100">
+
+  <div class="input-group input-group-sm mb-3">
     <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">전체</button>
     <ul class="dropdown-menu">
       <li><a class="dropdown-item active" href="#" aria-current="true">전체</a></li>
@@ -87,15 +89,48 @@
       <label class="form-label" for="search-input">Search</label>
     </div>
     <button id="search-button" type="button" class="btn btn-primary">
-      <img src="/img/search.svg" class="px-2">
+      <i class="bi bi-search text-white px-3"></i>
     </button>
 
   </div>
+
+  <form action="">
+    <div class="input-group mb-4 border rounded-pill p-1">
+      <div class="input-group-prepend border-0">
+        <button id="button-addon4" type="button" class="btn btn-link text-info"><i class="bi bi-search"></i></button>
+      </div>
+      <input type="search" placeholder="What're you searching for?" aria-describedby="button-addon4" class="form-control bg-none border-0">
+    </div>
+  </form>
+
+  <form action="">
+    <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
+      <div class="input-group">
+        <input type="search" placeholder="What're you searching for?" aria-describedby="button-addon1" class="form-control border-0 bg-light">
+        <div class="input-group-append">
+          <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="bi bi-search"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-group mb-4 border rounded-pill p-1">
+      <input type="search" placeholder="What're you searching for?" aria-describedby="button-addon3" class="form-control bg-none border-0">
+      <div class="input-group-append border-0">
+        <button id="button-addon3" type="button" class="btn btn-link text-success"><i class="bi bi-search"></i></button>
+      </div>
+    </div>
+
+  </form>
+  <!-- End -->
+
+  <div class="d-md-flex justify-content-md-end">
+    <button type="button" class="btn btn-primary btn-sm" th:href="@{/club/form}">팀 등록하기</button>
   </div>
 
-  <div class="table-responsive">
+
+  <div class="table-responsive my-4">
   <table class="table table-hover align-middle bg-white">
-    <thead class="bg-white">
+    <thead class="bg-light">
     <tr>
       <th>팀 명</th>
       <th>지역</th>
@@ -105,110 +140,101 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
+    <tr th:each="club:${clubs}">
       <td>
         <div class="d-flex align-items-center">
           <img
-            src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+            th:src="${club.img}"
             alt="팀 대표 이미지"
             style="width: 45px; height: 45px"
             class="rounded-circle">
           <div class="ms-3 fw-bold">
-            John Doe
+            <a th:href="@{'/club/detail/'+ ${club.id}}" th:text="${club.name}"></a>
           </div>
         </div>
       </td>
-      <td>Software engineer</td>
+      <td th:text="${club.local.name}"> </td>
       <td>
-        <span class="badge text-bg-success rounded-pill d-inline">Active</span>
+        <span class="badge text-bg-success rounded-pill d-inline">dddd</span>
       </td>
-      <td>Senior</td>
-      <td>
-        <button type="button" class="btn btn-sm">
-          Edit
-        </button>
-      </td>
+      <td  th:text="${club.memberCount}"></td>
+      <td  th:text="${club.leader}"></td>
     </tr>
 
-    <tr>
-      <td>
-        <div class="d-flex align-items-center">
-          <img
-            src="https://mdbootstrap.com/img/new/avatars/6.jpg"
-            class="rounded-circle"
-            alt=""
-            style="width: 45px; height: 45px"
-          />
-          <div class="ms-3">
-            <p class="fw-bold mb-1">Alex Ray</p>
-            <p class="text-muted mb-0">alex.ray@gmail.com</p>
-          </div>
-        </div>
-      </td>
-      <td>
-        <p class="fw-normal mb-1">Consultant</p>
-        <p class="text-muted mb-0">Finance</p>
-      </td>
-      <td>
-        <span class="badge text-bg-danger rounded-pill d-inline">Onboarding</span>
-      </td>
-      <td>Junior</td>
-      <td>
-        <button
-          type="button"
-          class="btn btn-sm fw-bold"
-        >
+<!--    <tr>-->
+<!--      <td>-->
+<!--        <div class="d-flex align-items-center">-->
+<!--          <img-->
+<!--            src="https://mdbootstrap.com/img/new/avatars/6.jpg"-->
+<!--            class="rounded-circle"-->
+<!--            alt=""-->
+<!--            style="width: 45px; height: 45px"-->
+<!--          />-->
+<!--          <div class="ms-3">-->
+<!--            <p class="fw-bold mb-1">Alex Ray</p>-->
+<!--            <p class="text-muted mb-0">alex.ray@gmail.com</p>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </td>-->
+<!--      <td>-->
+<!--        <p class="fw-normal mb-1">Consultant</p>-->
+<!--        <p class="text-muted mb-0">Finance</p>-->
+<!--      </td>-->
+<!--      <td>-->
+<!--        <span class="badge text-bg-danger rounded-pill d-inline">Onboarding</span>-->
+<!--      </td>-->
+<!--      <td>Junior</td>-->
+<!--      <td>-->
+<!--        <button-->
+<!--          type="button"-->
+<!--          class="btn btn-sm fw-bold"-->
+<!--        >-->
+<!--&lt;!&ndash;          data-mdb-ripple-color="dark"&ndash;&gt;-->
+
+<!--          Edit-->
+<!--        </button>-->
+<!--      </td>-->
+<!--    </tr>-->
+
+<!--    <tr>-->
+<!--      <td>-->
+<!--        <div class="d-flex align-items-center">-->
+<!--          <img-->
+<!--            src="https://mdbootstrap.com/img/new/avatars/7.jpg"-->
+<!--            class="rounded-circle"-->
+<!--            alt=""-->
+<!--            style="width: 45px; height: 45px"-->
+<!--          />-->
+<!--          <div class="ms-3">-->
+<!--            <p class="fw-bold mb-1">Kate Hunington</p>-->
+<!--            <p class="text-muted mb-0">kate.hunington@gmail.com</p>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </td>-->
+<!--      <td>-->
+<!--        <p class="fw-normal mb-1">Designer</p>-->
+<!--        <p class="text-muted mb-0">UI/UX</p>-->
+<!--      </td>-->
+<!--      <td>-->
+<!--        <span class="badge text-bg-primary rounded-pill d-inline">warning</span>-->
+<!--      </td>-->
+<!--      <td>Senior</td>-->
+<!--      <td>-->
+<!--        <button-->
+<!--          type="button"-->
+<!--          class="btn btn-sm fw-bold"-->
 <!--          data-mdb-ripple-color="dark"-->
-
-          Edit
-        </button>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <div class="d-flex align-items-center">
-          <img
-            src="https://mdbootstrap.com/img/new/avatars/7.jpg"
-            class="rounded-circle"
-            alt=""
-            style="width: 45px; height: 45px"
-          />
-          <div class="ms-3">
-            <p class="fw-bold mb-1">Kate Hunington</p>
-            <p class="text-muted mb-0">kate.hunington@gmail.com</p>
-          </div>
-        </div>
-      </td>
-      <td>
-        <p class="fw-normal mb-1">Designer</p>
-        <p class="text-muted mb-0">UI/UX</p>
-      </td>
-      <td>
-        <span class="badge text-bg-primary rounded-pill d-inline">warning</span>
-      </td>
-      <td>Senior</td>
-      <td>
-        <button
-          type="button"
-          class="btn btn-sm fw-bold"
-          data-mdb-ripple-color="dark"
-        >
-          Edit
-        </button>
-      </td>
-    </tr>
+<!--        >-->
+<!--          Edit-->
+<!--        </button>-->
+<!--      </td>-->
+<!--    </tr>-->
     </tbody>
   </table>
   </div>
-
-  <div class="grid text-center">
-    <div class="g-col-6 g-col-md-4">.g-col-6 .g-col-md-4</div>
-    <div class="g-col-6 g-col-md-4">.g-col-6 .g-col-md-4</div>
-    <div class="g-col-6 g-col-md-4">.g-col-6 .g-col-md-4</div>
-  </div>
   <!-- 페이징 시작 -->
   <nav aria-label="Page navigation example">
-    <ul class="pagination pagination-circle justify-content-center mt-3">
+    <ul class="pagination pagination-circle justify-content-center">
       <li class="page-item">
         <a class="page-link" href="#" aria-label="Previous">
           <span aria-hidden="true">&laquo;</span>
@@ -225,11 +251,8 @@
     </ul>
   </nav>
   <!-- 페이징 끝 -->
-  <div class="d-md-flex justify-content-md-end">
-  <button type="button" class="btn btn-primary btn-sm">팀 등록하기</button>
-  </div>
-</div>
 
+</div>
 <!-- Footer-->
 <footer class="footer bg-white small text-center text-black-50">
   <div class="container px-4 px-lg-5">Copyright &copy; 우아한1팀 Website 2022</div>

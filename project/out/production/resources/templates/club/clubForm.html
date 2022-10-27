@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/club/save}" th:object="${form}" method="POST">
+  동호회 이름 :
+  <input type="text" th:field="${form.name}">
+  동호회 설명 :
+  <textarea type="text" th:field="${form.introduction}"></textarea>
+  동호회 사진 :
+  <input type="file" th:field="${form.img}">
+
+  동호회 활동 지역 :
+  <select th:field="${form.local}" th:value="${form.local}" >
+      <option th:each="local:${locals}"  th:text="${local.name}" th:value="${local.id}">
+      </option>
+  </select>
+
+<!--    <select th:field="${form.local}" th:value="${form.local}">-->
+<!--    <option value="1">1</option>-->
+<!--    <option value="2">2</option>-->
+<!--    <option value="3">3</option>-->
+<!--</select>-->
+
+    <button type="submit">동호회 등록
+    </button>
+</form>
+
+</body>
+</html>
