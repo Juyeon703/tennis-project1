@@ -14,9 +14,4 @@ public class HomeController {
   public String home() {
     return "index";
   }
-
-  @GetMapping("/other")
-  public String other() {
-    return "clubHome";
-  }
 }

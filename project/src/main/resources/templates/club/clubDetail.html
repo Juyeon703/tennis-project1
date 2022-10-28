@@ -74,7 +74,7 @@
           <li>지역 :</li>
           <li th:text="${club.local.name}"></li>
           <li>모집 상태</li>
-          <li th:text="${club.status}"></li>
+          <li th:text="${club.status.title}"></li>
           <li>팀원 수 :</li>
           <li th:text="${club.memberCount}"></li>
         </ul>
@@ -117,7 +117,8 @@
     <div th:if="${clubMemberCheck != null}">
       <div th:if="${clubMemberCheck.member.nickname == club.leader}">
         <button type="button" class="btn btn-success">동호회 삭제</button>
-        <button type="button" class="btn btn-success">정보 수정</button>
+        <button type="button" class="btn btn-success"
+                th:onclick="|location.href='@{/club/update/{id} (id=${club.id})}'|">정보 수정</button>
       </div>
 
       <!-- 회원이면서 클럽에 가입된 사람 -->

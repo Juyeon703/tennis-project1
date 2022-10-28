@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import tennis.project.dto.ClubForm;
+import tennis.project.dto.ClubUpdateForm;
 import tennis.project.web.Status;
 
 import javax.persistence.*;
@@ -72,6 +73,14 @@ public class Club implements Serializable {
     return club;
   }
 
+  public void updateClub(ClubUpdateForm form, Club club) {
+    club.setId(form.getId());
+    club.setName(form.getName());
+    club.setIntroduction(form.getIntroduction());
+    club.setImg(form.getImg());
+    club.setStatus(form.getStatus());
+    club.setLocal(form.getLocal());
+  }
 
 }
 

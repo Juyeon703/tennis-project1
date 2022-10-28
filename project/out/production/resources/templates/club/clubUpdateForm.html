@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/club/update}" th:object="${form}" method="POST">
+  <input type="hidden" th:field="${form.id}" >
+  동호회 이름 :
+  <input type="text" th:field="${form.name}">
+  동호회 설명 :
+  <textarea type="text" th:field="${form.introduction}"></textarea>
+  동호회 사진 :
+  <input type="file" th:field="${form.img}">
+
+  동호회 활동 지역 :
+  <select th:field="${form.local}" th:value="${form.local}" >
+      <option th:each="local:${locals}"  th:text="${local.name}" th:value="${local.id}">
+      </option>
+  </select>
+
+    <div>모집 상태 :</div>
+    <div th:each="mojib : ${statuses}" class="form-check form-check-inline">
+      <input type="radio" th:field="*{status}" th:value="${mojib.name()}" class="form-check-input">
+      <label th:for="${#ids.prev('status')}" th:text="${mojib.title}" class="form-check-label">
+        mojib
+      </label>
+    </div>
+
+  <!--
+   https://taegyunwoo.github.io/thymeleaf/THYMELEAF_RadioButton
+   -->
+
+    <button type="submit">동호회 수정
+    </button>
+</form>
+
+</body>
+</html>

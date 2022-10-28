@@ -2,6 +2,10 @@ package tennis.project.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,8 +31,17 @@ public class BoardController {
 
   // 게시글 전체조회
   @GetMapping("/home")
-  public String home(Model model) {
-    List<Board> list = boardService.getBoardList();
+  public String home(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC)
+                       Pageable pageable, Model model) {
+    Page<Board> list = boardService.getBoardList(pageable);
+    int nowPage = list.getPageable().getPageNumber() + 1;
+    int startPage = Math.max(nowPage - 4, 1);
+    int endPage = Math.min(nowPage + 9, list.getTotalPages());
+
+    model.addAttribute("nowPage", nowPage);
+    model.addAttribute("startPage", startPage);
+    model.addAttribute("endPage", endPage);
+
     model.addAttribute("list", list);
     return "boards/boardHome";
   }
