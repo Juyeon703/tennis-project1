@@ -1,33 +1,74 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <title>Tennis</title>
+  <link rel="icon" type="image/x-icon" href="img/favicon.ico"/>
+  <!-- Google fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet"/>
+  <link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet"/>
+  <!-- CSS Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <!-- CSS -->
+  <link href="/css/styles.css" rel="stylesheet"/>
 </head>
 <body>
-<form th:action="@{/club/save}" th:object="${form}" method="POST">
-  동호회 이름 :
-  <input type="text" th:field="${form.name}">
-  동호회 설명 :
-  <textarea type="text" th:field="${form.introduction}"></textarea>
-  동호회 사진 :
-  <input type="file" th:field="${form.img}">
 
-  동호회 활동 지역 :
-  <select th:field="${form.local}" th:value="${form.local}" >
-      <option th:each="local:${locals}"  th:text="${local.name}" th:value="${local.id}">
-      </option>
-  </select>
+<button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#clubAddModal">모달</button>
 
-<!--    <select th:field="${form.local}" th:value="${form.local}">-->
-<!--    <option value="1">1</option>-->
-<!--    <option value="2">2</option>-->
-<!--    <option value="3">3</option>-->
-<!--</select>-->
+<!-- Modal -->
+<div class="modal fade" id="clubAddModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title fs-2" id="clubAddModalLabel">CLUB</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
 
-    <button type="submit">동호회 등록
-    </button>
-</form>
+        <form th:action="@{/club/save}" th:object="${form}" method="POST">
+          <div class="mb-3">
+            <label for="clubName" class="form-label">동호회 이름<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" th:field="${form.name}" id="clubName" placeholder="동호회 이름을 입력해주세요">
+            <div th:errors="${form.name}" class="text-danger"></div>
+          </div>
+          <div class="mb-3">
+            <label for="clubLocal" class="form-label">동호회 활동 지역<span class="text-danger">*</span></label>
+            <select th:field="${form.local}" th:value="${form.local}" id="clubLocal" class="form-control">
+              <option th:each="local:${locals}"  th:text="${local.name}" th:value="${local.id}">
+              </option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="clubImg" class="form-label">동호회 대표 이미지</label>
+            <input type="file" class="form-control" th:field="${form.img}" id="clubImg">
+          </div>
+          <div class="mb-3">
+            <label for="clubIntroduction" class="form-label">동호회 소개</label>
+            <textarea class="form-control" th:field="${form.introduction}" id="clubIntroduction" rows="3"></textarea>
+            <div th:errors="${form.introduction}" class="text-danger"></div>
+          </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        <button type="submit" class="btn btn-primary">등록하기</button>
+      </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.1.js"
+        integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+        crossorigin="anonymous"></script>
+<!-- JS Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
 </body>
 </html>

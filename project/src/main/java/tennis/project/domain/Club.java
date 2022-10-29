@@ -60,7 +60,7 @@ public class Club implements Serializable {
 
   public static Club createClub(ClubForm clubForm) {
     Club club = new Club();
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
     club.setName(clubForm.getName());
     club.setIntroduction(clubForm.getIntroduction());

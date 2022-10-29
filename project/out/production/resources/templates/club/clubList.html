@@ -66,171 +66,57 @@
 <div class="board_banner_area">
   <div class="board_banner_text">
     <h1>Club</h1>
-    <p>Check out the Club!</p>
+    <p>Check out the club and join the club!</p>
   </div>
-  <img src="/img/board_banner_1.jpg" alt="배너 이미지">
+  <img src="/img/club1.jpg" alt="배너 이미지">
 </div>
 
 <div class="col-12 p-5"></div>
 
 <div class="container">
 
-  <h4>동호회</h4>
-
-  <div class="input-group input-group-sm mb-3">
-    <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">전체</button>
-    <ul class="dropdown-menu">
-      <li><a class="dropdown-item active" href="#" aria-current="true">전체</a></li>
-      <li><a class="dropdown-item" href="#">팀명</a></li>
-      <li><a class="dropdown-item" href="#">지역</a></li>
-    </ul>
-    <div class="form-floating">
-      <input id="search-input" type="search" class="form-control" placeholder="search">
-      <label class="form-label" for="search-input">Search</label>
-    </div>
-    <button id="search-button" type="button" class="btn btn-primary">
-      <i class="bi bi-search text-white px-3"></i>
-    </button>
-
-  </div>
-
-  <form action="">
+  <form class="col-4 m-auto" action="">
     <div class="input-group mb-4 border rounded-pill p-1">
-      <div class="input-group-prepend border-0">
-        <button id="button-addon4" type="button" class="btn btn-link text-info"><i class="bi bi-search"></i></button>
-      </div>
-      <input type="search" placeholder="What're you searching for?" aria-describedby="button-addon4" class="form-control bg-none border-0">
+      <input type="search" placeholder="What're you searching for?"
+             class="form-control bg-none border-0 rounded-circle">
+     <i class="mx-3 mt-2 mb-1 bi bi-search" role="button"></i>
     </div>
   </form>
-
-  <form action="">
-    <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
-      <div class="input-group">
-        <input type="search" placeholder="What're you searching for?" aria-describedby="button-addon1" class="form-control border-0 bg-light">
-        <div class="input-group-append">
-          <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="bi bi-search"></i></button>
-        </div>
-      </div>
-    </div>
-
-    <div class="input-group mb-4 border rounded-pill p-1">
-      <input type="search" placeholder="What're you searching for?" aria-describedby="button-addon3" class="form-control bg-none border-0">
-      <div class="input-group-append border-0">
-        <button id="button-addon3" type="button" class="btn btn-link text-success"><i class="bi bi-search"></i></button>
-      </div>
-    </div>
-
-  </form>
-  <!-- End -->
 
   <div class="d-md-flex justify-content-md-end">
-    <button type="button" class="btn btn-primary btn-sm" th:onclick="|location.href='@{/club/form}'|">팀 등록하기</button>
+    <button type="button" class="btn btn-primary px-4 py-3" th:onclick="|location.href='@{/club/form}'|">팀 등록하기</button>
   </div>
 
-
-  <div class="table-responsive my-4">
-  <table class="table table-hover align-middle bg-white">
-    <thead class="bg-light">
-    <tr>
-      <th>팀 명</th>
-      <th>지역</th>
-      <th>인원</th>
-      <th>모집 상태</th>
-      <th>상세</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="club:${clubs}">
-      <td>
-        <div class="d-flex align-items-center">
-          <img
-            th:src="${club.img}"
-            alt="팀 대표 이미지"
-            style="width: 45px; height: 45px"
-            class="rounded-circle">
-          <div class="ms-3 fw-bold">
-            <a th:href="@{'/club/detail/'+ ${club.id}}" th:text="${club.name}"></a>
-          </div>
-        </div>
-      </td>
-      <td th:text="${club.local.name}"> </td>
-      <td>
-        <span class="badge text-bg-success rounded-pill d-inline">dddd</span>
-      </td>
-      <td  th:text="${club.memberCount}"></td>
-      <td  th:text="${club.leader}"></td>
-    </tr>
-
-<!--    <tr>-->
-<!--      <td>-->
-<!--        <div class="d-flex align-items-center">-->
-<!--          <img-->
-<!--            src="https://mdbootstrap.com/img/new/avatars/6.jpg"-->
-<!--            class="rounded-circle"-->
-<!--            alt=""-->
-<!--            style="width: 45px; height: 45px"-->
-<!--          />-->
-<!--          <div class="ms-3">-->
-<!--            <p class="fw-bold mb-1">Alex Ray</p>-->
-<!--            <p class="text-muted mb-0">alex.ray@gmail.com</p>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </td>-->
-<!--      <td>-->
-<!--        <p class="fw-normal mb-1">Consultant</p>-->
-<!--        <p class="text-muted mb-0">Finance</p>-->
-<!--      </td>-->
-<!--      <td>-->
-<!--        <span class="badge text-bg-danger rounded-pill d-inline">Onboarding</span>-->
-<!--      </td>-->
-<!--      <td>Junior</td>-->
-<!--      <td>-->
-<!--        <button-->
-<!--          type="button"-->
-<!--          class="btn btn-sm fw-bold"-->
-<!--        >-->
-<!--&lt;!&ndash;          data-mdb-ripple-color="dark"&ndash;&gt;-->
-
-<!--          Edit-->
-<!--        </button>-->
-<!--      </td>-->
-<!--    </tr>-->
-
-<!--    <tr>-->
-<!--      <td>-->
-<!--        <div class="d-flex align-items-center">-->
-<!--          <img-->
-<!--            src="https://mdbootstrap.com/img/new/avatars/7.jpg"-->
-<!--            class="rounded-circle"-->
-<!--            alt=""-->
-<!--            style="width: 45px; height: 45px"-->
-<!--          />-->
-<!--          <div class="ms-3">-->
-<!--            <p class="fw-bold mb-1">Kate Hunington</p>-->
-<!--            <p class="text-muted mb-0">kate.hunington@gmail.com</p>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </td>-->
-<!--      <td>-->
-<!--        <p class="fw-normal mb-1">Designer</p>-->
-<!--        <p class="text-muted mb-0">UI/UX</p>-->
-<!--      </td>-->
-<!--      <td>-->
-<!--        <span class="badge text-bg-primary rounded-pill d-inline">warning</span>-->
-<!--      </td>-->
-<!--      <td>Senior</td>-->
-<!--      <td>-->
-<!--        <button-->
-<!--          type="button"-->
-<!--          class="btn btn-sm fw-bold"-->
-<!--          data-mdb-ripple-color="dark"-->
-<!--        >-->
-<!--          Edit-->
-<!--        </button>-->
-<!--      </td>-->
-<!--    </tr>-->
-    </tbody>
-  </table>
+  <div class="my-4">
+    <table class="table table-hover align-middle bg-white">
+      <thead class="bg-light">
+      <tr>
+        <th></th>
+        <th>동호회 이름</th>
+        <th class="text-center">지역</th>
+        <th class="text-center">인원</th>
+        <th class="text-center">동호회장</th>
+        <th class="text-center">생성일</th>
+        <th class="text-center">모집 상태</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="club:${clubs}" th:onclick="|location.href='@{/club/detail/{id} (id=${club.id})}'|" role="button">
+        <td class="py-5"></td>
+        <td>
+          <a class="fw-bold text-decoration-none text-black" th:text="${club.name}"></a>
+        </td>
+        <td class="text-center"><i class="bi bi-geo-alt-fill text-muted me-1"></i><span th:text="${club.local.name}"></span></td>
+        <td class="text-center"><i class="bi bi-people-fill text-muted me-1"></i><span th:text="${club.memberCount}"></span></td>
+        <td class="text-center"th:text="${club.leader}"></td>
+        <td class="text-center" th:text="${club.createdDate}"></td>
+        <td class="text-center">
+          <span th:if="${club.status.name() == 'RECRUITING'}" th:text="${club.status.title}" class="badge text-bg-success rounded-pill d-inline"></span>
+          <span th:if="${club.status.name() == 'END'}" th:text="${club.status.title}" class="badge text-bg-danger rounded-pill d-inline"></span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </div>
   <!-- 페이징 시작 -->
   <nav aria-label="Page navigation example">
@@ -265,6 +151,5 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
-<script src="/js/localCategory.js"></script>
 </body>
 </html>
