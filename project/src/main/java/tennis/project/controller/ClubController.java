@@ -2,6 +2,7 @@ package tennis.project.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,6 +38,12 @@ public class ClubController {
     List<Club> clubs = clubService.getClubList();
     model.addAttribute("clubs", clubs);
 
+    ClubForm clubForm = new ClubForm();
+    model.addAttribute("form", clubForm);
+
+    List<Local> locals = tournamentService.getLocalList();
+    model.addAttribute("locals", locals);
+
     return "/club/clubList"; // 동호회 리스트 페이지
   }
 
@@ -53,22 +60,38 @@ public class ClubController {
 
     if (session != null) {
       Member member = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
-      ClubMember clubMemberCheck = clubService.ClubMemberCheck(clubId, member.getId());
+      ClubMember clubMemberCheck = clubService.clubMemberCheck(clubId, member.getId());
       model.addAttribute("clubMemberCheck", clubMemberCheck);
     }
+
+    // 정보 수정 모달용
+    ClubUpdateForm form = new ClubUpdateForm();
+    form.setId(club.getId());
+    form.setImg(club.getImg());
+    form.setIntroduction(club.getIntroduction());
+    form.setName(club.getName());
+    form.setStatus(club.getStatus());
+    form.setLocal(club.getLocal());
+    model.addAttribute("form", form);
+
+    Status[] statuses = Status.values();
+    model.addAttribute("statuses", statuses);
+
+    List<Local> locals = tournamentService.getLocalList();
+    model.addAttribute("locals", locals);
 
     return "/club/clubDetail";
   }
 
-  @GetMapping("/club/form")
-  public String clubForm(Model model) {
-    ClubForm clubForm = new ClubForm();
-    model.addAttribute("form", clubForm);
-
-    List<Local> locals = tournamentService.getLocalList();
-    model.addAttribute("locals", locals);
-    return "/club/clubForm";
-  }
+//  @GetMapping("/club/form")
+//  public String clubForm(Model model) {
+//    ClubForm clubForm = new ClubForm();
+//    model.addAttribute("form", clubForm);
+//
+//    List<Local> locals = tournamentService.getLocalList();
+//    model.addAttribute("locals", locals);
+//    return "/club/clubForm";
+//  }
 
   @PostMapping("/club/save")
   public String clubSave(@Validated @ModelAttribute("form") ClubForm form, BindingResult bindingResult,
@@ -76,7 +99,6 @@ public class ClubController {
 
     if (bindingResult.hasErrors()) {
       log.info("errors = {}", bindingResult);
-      return "/club/clubForm";
     }
 
     Member member = (Member) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
@@ -95,26 +117,26 @@ public class ClubController {
     return "redirect:/club/detail/" + clubId;
   }
 
-  @GetMapping("/club/update/{clubId}")
-  public String clubUpdate(@PathVariable("clubId") Long clubId, Model model) {
-    Club club = clubService.findOne(clubId);
-    ClubUpdateForm form = new ClubUpdateForm();
-    form.setId(club.getId());
-    form.setImg(club.getImg());
-    form.setIntroduction(club.getIntroduction());
-    form.setName(club.getName());
-    form.setStatus(club.getStatus());
-    form.setLocal(club.getLocal());
-    model.addAttribute("form", form);
-
-    Status[] statuses = Status.values();
-    model.addAttribute("statuses", statuses);
-
-    List<Local> locals = tournamentService.getLocalList();
-    model.addAttribute("locals", locals);
-
-    return "/club/clubUpdateForm";
-  }
+//  @GetMapping("/club/update/{clubId}")
+//  public String clubUpdate(@PathVariable("clubId") Long clubId, Model model) {
+//    Club club = clubService.findOne(clubId);
+//    ClubUpdateForm form = new ClubUpdateForm();
+//    form.setId(club.getId());
+//    form.setImg(club.getImg());
+//    form.setIntroduction(club.getIntroduction());
+//    form.setName(club.getName());
+//    form.setStatus(club.getStatus());
+//    form.setLocal(club.getLocal());
+//    model.addAttribute("form", form);
+//
+//    Status[] statuses = Status.values();
+//    model.addAttribute("statuses", statuses);
+//
+//    List<Local> locals = tournamentService.getLocalList();
+//    model.addAttribute("locals", locals);
+//
+//    return "/club/clubUpdateForm";
+//  }
 
   @PostMapping("/club/update")
   public String clubUpdate(@Validated @ModelAttribute("form") ClubUpdateForm form,
@@ -122,12 +144,25 @@ public class ClubController {
 
     if (bindingResult.hasErrors()) {
       log.info("errors = {}", bindingResult);
-      return "/club/clubUpdateForm";
     }
 
-   Long clubId = clubService.update(form);
+    Long clubId = clubService.update(form);
 
     return "redirect:/club/detail/" + clubId;
   }
 
+  @PostMapping("/club/memberDelete")
+  public String clubMemberDelete(HttpServletRequest request, Long id) {
+    Long clubId = clubService.findOne(id).getId();
+    Member member = (Member) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
+    Long memberId = member.getId();
+    clubService.deleteClubMember(clubId, memberId);
+    return "redirect:/club/detail/" + clubId;
+  }
+
+  @PostMapping("/club/delete")
+  public String clubDelete(Long id) {
+    clubService.deleteClub(clubService.findOne(id).getId());
+    return "redirect:/club";
+  }
 }

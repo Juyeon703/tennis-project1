@@ -14,6 +14,7 @@ import tennis.project.repository.ClubRepository;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -55,8 +56,12 @@ public class ClubService {
       .filter(clubMember -> clubMember.getClub().getId() == clubId).toList();
   }
 
-  public ClubMember ClubMemberCheck(Long clubId, Long memberId) {
-    return clubMemberRepository.exist(clubId, memberId).orElse(null);
+  public ClubMember clubMemberCheck(Long clubId, Long memberId) {
+    Optional<ClubMember> result = clubMemberRepository.exist(clubId, memberId);
+    if (result.isEmpty()) {
+      return null;
+    }
+    return clubMemberRepository.exist(clubId, memberId).get();
   }
 
   @Transactional
@@ -64,5 +69,21 @@ public class ClubService {
     Club club = clubRepository.findOne(form.getId());
     club.updateClub(form, club);
     return club.getId();
+  }
+
+  @Transactional
+  public void deleteClubMember(Long clubId, Long memberId) {
+    ClubMember clubMember = clubMemberCheck(clubId, memberId);
+    clubMemberRepository.delete(clubMember);
+    Club club = clubRepository.findOne(clubId);
+    club.setMemberCount(club.getMemberCount() - 1);
+  }
+
+
+  @Transactional
+  public void deleteClub(Long clubId) {
+    clubMemberRepository.deleteAllInBatch(getClubMemberList(clubId));
+    clubRepository.deleteById(clubId);
+
   }
 }

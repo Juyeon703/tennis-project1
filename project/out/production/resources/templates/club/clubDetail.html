@@ -115,17 +115,26 @@
   <div th:if="${session.loginMember != null}">
     <!-- 회원이면서 클럽장인 사람-->
     <div th:if="${clubMemberCheck != null}">
+
       <div th:if="${clubMemberCheck.member.nickname == club.leader}">
-        <button type="button" class="btn btn-success">동호회 삭제</button>
+        <form th:action="@{/club/delete}" method="POST">
+          <input type="hidden" th:field="*{club.id}">
+          <button type="submit" class="btn btn-success">동호회 삭제</button>
+        </form>
         <button type="button" class="btn btn-success"
-                th:onclick="|location.href='@{/club/update/{id} (id=${club.id})}'|">정보 수정</button>
+                data-bs-toggle="modal" data-bs-target="#clubUpdateModal">정보 수정
+        </button>
       </div>
 
       <!-- 회원이면서 클럽에 가입된 사람 -->
       <div th:if="${clubMemberCheck.member.nickname != club.leader}">
-        <button type="button" class="btn btn-success">동호회 탈퇴</button>
+        <form th:action="@{/club/memberDelete}" method="POST">
+          <input type="hidden" th:field="*{club.id}">
+          <button type="submit" class="btn btn-success">동호회 탈퇴</button>
+        </form>
       </div>
-    </div>
+
+    </div> <!-- 클럽멤버 검증-->
 
     <div th:if="${clubMemberCheck == null}">
       <form th:action="@{/club/join}" method="POST">
@@ -133,9 +142,7 @@
         <button type="submit" class="btn btn-success">가입하기</button>
       </form>
     </div>
-
-
-  </div>
+  </div> <!-- 로그인 검증-->
 
   <!--
   <div th:each="clubMember:${memberList}"
@@ -143,6 +150,59 @@
 
 
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="clubUpdateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title fs-2" id="clubUpdateModalLabel">CLUB UPDATE</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <form th:action="@{/club/update}" th:object="${form}" method="POST">
+          <input type="hidden" th:field="${form.id}" >
+          <div class="mb-3">
+            <label for="clubName" class="form-label">동호회 이름<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" th:field="${form.name}" id="clubName" required>
+            <div th:errors="${form.name}" class="text-danger"></div>
+          </div>
+          <div class="mb-3">
+            <label for="clubLocal" class="form-label">동호회 활동 지역<span class="text-danger">*</span></label>
+            <select th:field="${form.local}" th:value="${form.local}" id="clubLocal" class="form-control">
+              <option th:each="local:${locals}"  th:text="${local.name}" th:value="${local.id}">
+              </option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="clubImg" class="form-label">동호회 대표 이미지</label>
+            <input type="file" class="form-control" th:field="${form.img}" id="clubImg">
+          </div>
+          <div class="mb-3">
+            <label for="clubIntroduction" class="form-label">동호회 소개</label>
+            <textarea class="form-control" th:field="${form.introduction}" id="clubIntroduction" rows="3"></textarea>
+            <div th:errors="${form.introduction}" class="text-danger"></div>
+          </div>
+          <div class="mb-3">
+            <div class="form-label">모집 상태</div>
+            <div th:each="mojib : ${statuses}" class="form-check form-check-inline">
+              <input type="radio" th:field="*{status}" th:value="${mojib.name()}" class="form-check-input">
+              <label th:for="${#ids.prev('status')}" th:text="${mojib.title}" class="form-check-label">
+                mojib
+              </label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+            <button type="submit" class="btn btn-primary">수정하기</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--모달 끝-->
 
 
 <!-- Footer-->

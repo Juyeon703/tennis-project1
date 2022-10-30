@@ -84,7 +84,8 @@
   </form>
 
   <div class="d-md-flex justify-content-md-end">
-    <button type="button" class="btn btn-primary px-4 py-3" th:onclick="|location.href='@{/club/form}'|">팀 등록하기</button>
+    <a type="button" class="btn btn-primary px-4 py-3"
+            data-bs-toggle="modal" data-bs-target="#clubAddModal">팀 등록하기</a>
   </div>
 
   <div class="my-4">
@@ -137,6 +138,49 @@
     </ul>
   </nav>
   <!-- 페이징 끝 -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="clubAddModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title fs-2" id="clubAddModalLabel">CLUB</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <form th:action="@{/club/save}" th:object="${form}" method="POST">
+            <div class="mb-3">
+              <label for="clubName" class="form-label">동호회 이름<span class="text-danger">*</span></label>
+              <input type="text" class="form-control" th:field="${form.name}" id="clubName" placeholder="동호회 이름을 입력해주세요" required>
+              <div th:errors="${form.name}" class="text-danger"></div>
+            </div>
+            <div class="mb-3">
+              <label for="clubLocal" class="form-label">동호회 활동 지역<span class="text-danger">*</span></label>
+              <select th:field="${form.local}" th:value="${form.local}" id="clubLocal" class="form-control">
+                <option th:each="local:${locals}"  th:text="${local.name}" th:value="${local.id}">
+                </option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="clubImg" class="form-label">동호회 대표 이미지</label>
+              <input type="file" class="form-control" th:field="${form.img}" id="clubImg">
+            </div>
+            <div class="mb-3">
+              <label for="clubIntroduction" class="form-label">동호회 소개</label>
+              <textarea class="form-control" th:field="${form.introduction}" id="clubIntroduction" rows="3"></textarea>
+              <div th:errors="${form.introduction}" class="text-danger"></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+              <button type="submit" class="btn btn-primary">등록하기</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 모달 끝 -->
 
 </div>
 <!-- Footer-->
