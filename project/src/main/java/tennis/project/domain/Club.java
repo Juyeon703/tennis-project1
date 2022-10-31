@@ -3,6 +3,7 @@ package tennis.project.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import tennis.project.dto.ClubForm;
 import tennis.project.dto.ClubUpdateForm;
@@ -20,6 +21,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Club implements Serializable {
 
   @Id
@@ -81,6 +83,8 @@ public class Club implements Serializable {
     club.setStatus(form.getStatus());
     club.setLocal(form.getLocal());
   }
+
+
 
 }
 

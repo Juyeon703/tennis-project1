@@ -75,19 +75,20 @@
 
 <div class="container">
 
-  <form class="col-4 m-auto" action="">
+  <form class="col-4 m-auto" th:action="@{/club/search}">
     <div class="input-group mb-4 border rounded-pill p-1">
-      <input type="search" placeholder="What're you searching for?"
-             class="form-control bg-none border-0 rounded-circle">
-     <i class="mx-3 mt-2 mb-1 bi bi-search" role="button"></i>
+      <input name="keyword" type="search" placeholder="What're you searching for?"
+             class="form-control bg-none border-0 rounded-circle search">
+      <button type="submit" style="border-style: none; background: none"><i class="mx-3 mt-2 mb-1 bi bi-search"></i>
+      </button>
     </div>
   </form>
 
-  <div class="d-md-flex justify-content-md-end">
+  <div th:if="${session.loginMember != null}" class="d-md-flex justify-content-md-end">
     <a type="button" class="btn btn-primary px-4 py-3"
-            data-bs-toggle="modal" data-bs-target="#clubAddModal">팀 등록하기</a>
+       data-bs-toggle="modal" data-bs-target="#clubAddModal">팀 등록하기</a>
   </div>
-
+  <div th:if="${session.loginMember == null}" class="col-12 p-3"></div>
   <div class="my-4">
     <table class="table table-hover align-middle bg-white">
       <thead class="bg-light">
@@ -107,31 +108,37 @@
         <td>
           <a class="fw-bold text-decoration-none text-black" th:text="${club.name}"></a>
         </td>
-        <td class="text-center"><i class="bi bi-geo-alt-fill text-muted me-1"></i><span th:text="${club.local.name}"></span></td>
-        <td class="text-center"><i class="bi bi-people-fill text-muted me-1"></i><span th:text="${club.memberCount}"></span></td>
-        <td class="text-center"th:text="${club.leader}"></td>
+        <td class="text-center"><i class="bi bi-geo-alt-fill text-muted me-1"></i><span
+          th:text="${club.local.name}"></span></td>
+        <td class="text-center"><i class="bi bi-people-fill text-muted me-1"></i><span
+          th:text="${club.memberCount}"></span></td>
+        <td class="text-center" th:text="${club.leader}"></td>
         <td class="text-center" th:text="${club.createdDate}"></td>
         <td class="text-center">
-          <span th:if="${club.status.name() == 'RECRUITING'}" th:text="${club.status.title}" class="badge text-bg-success rounded-pill d-inline"></span>
-          <span th:if="${club.status.name() == 'END'}" th:text="${club.status.title}" class="badge text-bg-danger rounded-pill d-inline"></span>
+          <span th:if="${club.status.name() == 'RECRUITING'}" th:text="${club.status.title}"
+                class="badge text-bg-success rounded-pill d-inline"></span>
+          <span th:if="${club.status.name() == 'END'}" th:text="${club.status.title}"
+                class="badge text-bg-danger rounded-pill d-inline"></span>
         </td>
       </tr>
       </tbody>
     </table>
   </div>
   <!-- 페이징 시작 -->
-  <nav aria-label="Page navigation example">
+  <nav th:if="${startPage != null}" aria-label="Page navigation example">
     <ul class="pagination pagination-circle justify-content-center">
       <li class="page-item">
-        <a class="page-link" href="#" aria-label="Previous">
+        <a class="page-link" aria-label="Previous" th:href="@{/club(page=${nowPage-2})}">
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <th:block class="page-item" th:each="page:${#numbers.sequence(startPage, endPage)}">
+        <a class="page-link" th:if="${page != nowPage}" th:href="@{/club(page=${page-1})}"
+           th:text="${page}"></a>
+        <strong class="page-link" th:if="${page==nowPage}" th:text="${page}"></strong>
+      </th:block>
       <li class="page-item">
-        <a class="page-link" href="#" aria-label="Next">
+        <a class="page-link" aria-label="Next" th:href="@{/club(page=${nowPage})}">
           <span aria-hidden="true">&raquo;</span>
         </a>
       </li>
@@ -140,7 +147,8 @@
   <!-- 페이징 끝 -->
 
   <!-- Modal -->
-  <div class="modal fade" id="clubAddModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal fade" id="clubAddModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+       aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -152,13 +160,14 @@
           <form th:action="@{/club/save}" th:object="${form}" method="POST">
             <div class="mb-3">
               <label for="clubName" class="form-label">동호회 이름<span class="text-danger">*</span></label>
-              <input type="text" class="form-control" th:field="${form.name}" id="clubName" placeholder="동호회 이름을 입력해주세요" required>
+              <input type="text" class="form-control" th:field="${form.name}" id="clubName" placeholder="동호회 이름을 입력해주세요"
+                     required>
               <div th:errors="${form.name}" class="text-danger"></div>
             </div>
             <div class="mb-3">
               <label for="clubLocal" class="form-label">동호회 활동 지역<span class="text-danger">*</span></label>
               <select th:field="${form.local}" th:value="${form.local}" id="clubLocal" class="form-control">
-                <option th:each="local:${locals}"  th:text="${local.name}" th:value="${local.id}">
+                <option th:each="local:${locals}" th:text="${local.name}" th:value="${local.id}">
                 </option>
               </select>
             </div>

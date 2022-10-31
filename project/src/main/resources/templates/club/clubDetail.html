@@ -104,8 +104,22 @@
         <div class="p-3 h-100 border bg-light" style="overflow: scroll">
           <h4>선수명단</h4>
           <ul th:each="clubMember:${memberList}">
-            <li th:text="${clubMember.member.nickname}"></li>
+            <li th:text="${clubMember.member.nickname}">
+            </li>
           </ul>
+
+          <table>
+            <tr th:each="clubMember:${memberList}">
+              <td th:text="${clubMember.member.nickname}"></td>
+              <td th:if="${session.loginMember.nickname == club.leader
+              and clubMember.member.id != session.loginMember.id}">
+                <form th:action="@{/club/memberBan/{id} (id=${clubMember.id})}" method="POST">
+                  <button type="submit" class="btn btn-danger p-1">추방</button>
+                </form>
+              </td>
+            </tr>
+          </table>
+
         </div>
       </div>
     </div>
@@ -152,7 +166,8 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="clubUpdateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="clubUpdateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -162,16 +177,44 @@
       <div class="modal-body">
 
         <form th:action="@{/club/update}" th:object="${form}" method="POST">
-          <input type="hidden" th:field="${form.id}" >
+          <input type="hidden" th:field="${form.id}">
           <div class="mb-3">
             <label for="clubName" class="form-label">동호회 이름<span class="text-danger">*</span></label>
             <input type="text" class="form-control" th:field="${form.name}" id="clubName" required>
-            <div th:errors="${form.name}" class="text-danger"></div>
+<!--            <button type="button" id="club-dup-button" class="dup-check-button">중복확인</button>-->
+<!--            <div class="field-error text-danger" th:errors="${form.name}"></div>-->
+<!--            <script>-->
+<!--                $("#club-dup-button").click(function () {-->
+<!--                    $("#club-submit").attr("type", "button");-->
+<!--                    let name = {-->
+<!--                        clubName: $("#clubName").val()-->
+<!--                    }-->
+<!--                    $.ajax({-->
+<!--                        type: "get",-->
+<!--                        async: false,-->
+<!--                        url: "/api/club/checkClub",-->
+<!--                        data: name,-->
+<!--                        success: function (data) {-->
+<!--                            if (data.result === "duplicate") {-->
+<!--                                alert("이미 사용된 동호회 이름입니다.");-->
+<!--                            } else if (data.result === "ok") {-->
+<!--                                alert("사용 가능한 동호회 이름입니다.");-->
+<!--                                $("#club-submit").attr("type", "submit");-->
+<!--                            } else if (data.result === "validate") {-->
+<!--                                alert("동호회 이름은 1 ~ 16 자 이내여야 합니다.");-->
+<!--                            }-->
+<!--                        },-->
+<!--                        error: function () {-->
+<!--                            alert("서버 에러!");-->
+<!--                        }-->
+<!--                    });-->
+<!--                });-->
+<!--            </script>-->
           </div>
           <div class="mb-3">
             <label for="clubLocal" class="form-label">동호회 활동 지역<span class="text-danger">*</span></label>
             <select th:field="${form.local}" th:value="${form.local}" id="clubLocal" class="form-control">
-              <option th:each="local:${locals}"  th:text="${local.name}" th:value="${local.id}">
+              <option th:each="local:${locals}" th:text="${local.name}" th:value="${local.id}">
               </option>
             </select>
           </div>
@@ -195,7 +238,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-            <button type="submit" class="btn btn-primary">수정하기</button>
+            <button type="submit" class="btn btn-primary" id="club-submit">수정하기</button>
           </div>
         </form>
       </div>

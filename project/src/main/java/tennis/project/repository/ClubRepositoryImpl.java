@@ -6,16 +6,16 @@ import tennis.project.domain.Club;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
 public class ClubRepositoryImpl implements ClubRepositoryInterface {
 
-    @PersistenceContext
-    private final EntityManager em;
+  @PersistenceContext
+  private final EntityManager em;
 
-    public Club findOne(Long clubId){
-        return em.find(Club.class, clubId);
-    }
-
+  public Club findOne(Long clubId) {
+    return em.find(Club.class, clubId);
+  }
 }

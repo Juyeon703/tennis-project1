@@ -3,10 +3,8 @@ package tennis.project.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import tennis.project.domain.Club;
 import tennis.project.domain.ClubMember;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface ClubMemberRepository extends JpaRepository<ClubMember, Long>, ClubMemberRepositoryInterface {

@@ -1,6 +1,9 @@
 package tennis.project.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tennis.project.domain.Club;
@@ -10,9 +13,6 @@ import tennis.project.dto.ClubForm;
 import tennis.project.dto.ClubUpdateForm;
 import tennis.project.repository.ClubMemberRepository;
 import tennis.project.repository.ClubRepository;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,8 +24,8 @@ public class ClubService {
   private final ClubRepository clubRepository;
   private final ClubMemberRepository clubMemberRepository;
 
-  public List<Club> getClubList() {
-    return clubRepository.findAll();
+  public Page<Club> getClubList(Pageable pageable) {
+    return clubRepository.findAll(pageable);
   }
 
   public Club findOne(Long clubId) {
@@ -40,7 +40,6 @@ public class ClubService {
     clubMemberRepository.save(clubMember);
     return club;
   }
-
 
   @Transactional
   public ClubMember addClubMember(Club club, Member member) {
@@ -57,11 +56,7 @@ public class ClubService {
   }
 
   public ClubMember clubMemberCheck(Long clubId, Long memberId) {
-    Optional<ClubMember> result = clubMemberRepository.exist(clubId, memberId);
-    if (result.isEmpty()) {
-      return null;
-    }
-    return clubMemberRepository.exist(clubId, memberId).get();
+    return clubMemberRepository.exist(clubId, memberId).orElse(null);
   }
 
   @Transactional
@@ -79,11 +74,27 @@ public class ClubService {
     club.setMemberCount(club.getMemberCount() - 1);
   }
 
-
   @Transactional
   public void deleteClub(Long clubId) {
     clubMemberRepository.deleteAllInBatch(getClubMemberList(clubId));
     clubRepository.deleteById(clubId);
 
+  }
+
+  @Transactional
+  public List<Club> searchClubs(String keyword) {
+    // 검색 키워드가 지역 이름이랑 같거나, 클럽 이름에 포함되었을 때
+    return clubRepository.findAll().stream()
+      .filter(searchClubs -> searchClubs.getLocal().getName().contains(keyword)
+        || searchClubs.getName().contains(keyword)).toList();
+  }
+
+  public ClubMember get(Long id) {
+    return clubMemberRepository.findOne(id);
+  }
+
+  // 중복확인
+  public Optional<Club> findByName(String clubName) {
+    return clubRepository.findAll().stream().filter(club -> club.getName().equals(clubName)).findFirst();
   }
 }

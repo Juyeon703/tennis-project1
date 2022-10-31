@@ -3,9 +3,7 @@ package tennis.project.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.springframework.data.annotation.CreatedDate;
-import tennis.project.dto.ClubForm;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
