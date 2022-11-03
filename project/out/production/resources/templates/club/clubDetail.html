@@ -181,35 +181,35 @@
           <div class="mb-3">
             <label for="clubName" class="form-label">동호회 이름<span class="text-danger">*</span></label>
             <input type="text" class="form-control" th:field="${form.name}" id="clubName" required>
-            <button type="button" id="club-dup-button" class="dup-check-button">중복확인</button>
-            <div class="field-error text-danger" th:errors="${form.name}"></div>
-            <script>
-                $("#club-dup-button").click(function () {
-                    $("#club-submit").attr("type", "button");
-                    let name = {
-                        clubName: $("#clubName").val()
-                    }
-                    $.ajax({
-                        type: "get",
-                        async: false,
-                        url: "/api/club/checkClub",
-                        data: name,
-                        success: function (data) {
-                            if (data.result === "duplicate") {
-                                alert("이미 사용된 동호회 이름입니다.");
-                            } else if (data.result === "ok") {
-                                alert("사용 가능한 동호회 이름입니다.");
-                                $("#club-submit").attr("type", "submit");
-                            } else if (data.result === "validate") {
-                                alert("동호회 이름은 1 ~ 16 자 이내여야 합니다.");
-                            }
-                        },
-                        error: function () {
-                            alert("서버 에러!");
-                        }
-                    });
-                });
-            </script>
+<!--            <button type="button" id="club-dup-button" class="dup-check-button">중복확인</button>-->
+<!--            <div class="field-error text-danger" th:errors="${form.name}"></div>-->
+<!--            <script>-->
+<!--                $("#club-dup-button").click(function () {-->
+<!--                    $("#club-submit").attr("type", "button");-->
+<!--                    let name = {-->
+<!--                        clubName: $("#clubName").val()-->
+<!--                    }-->
+<!--                    $.ajax({-->
+<!--                        type: "get",-->
+<!--                        async: false,-->
+<!--                        url: "/api/club/checkClub",-->
+<!--                        data: name,-->
+<!--                        success: function (data) {-->
+<!--                            if (data.result === "duplicate") {-->
+<!--                                alert("이미 사용된 동호회 이름입니다.");-->
+<!--                            } else if (data.result === "ok") {-->
+<!--                                alert("사용 가능한 동호회 이름입니다.");-->
+<!--                                $("#club-submit").attr("type", "submit");-->
+<!--                            } else if (data.result === "validate") {-->
+<!--                                alert("동호회 이름은 1 ~ 16 자 이내여야 합니다.");-->
+<!--                            }-->
+<!--                        },-->
+<!--                        error: function () {-->
+<!--                            alert("서버 에러!");-->
+<!--                        }-->
+<!--                    });-->
+<!--                });-->
+<!--            </script>-->
           </div>
           <div class="mb-3">
             <label for="clubLocal" class="form-label">동호회 활동 지역<span class="text-danger">*</span></label>
