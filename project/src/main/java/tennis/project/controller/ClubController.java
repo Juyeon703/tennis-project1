@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import tennis.project.domain.Club;
 import tennis.project.domain.ClubMember;
 import tennis.project.domain.Local;
@@ -96,7 +97,7 @@ public class ClubController {
     // 정보 수정 모달용
     ClubUpdateForm form = new ClubUpdateForm();
     form.setId(club.getId());
-    form.setImg(club.getImg());
+    form.setImgPath(club.getImgPath());
     form.setIntroduction(club.getIntroduction());
     form.setName(club.getName());
     form.setStatus(club.getStatus());
@@ -124,7 +125,7 @@ public class ClubController {
 
   @PostMapping("/club/save")
   public String clubSave(@Validated @ModelAttribute("form") ClubForm form, BindingResult bindingResult,
-                         HttpServletRequest request) {
+                         HttpServletRequest request, MultipartFile file) throws IOException {
 
     if (bindingResult.hasErrors()) {
       log.info("errors = {}", bindingResult);
@@ -133,7 +134,7 @@ public class ClubController {
 
     Member member = (Member) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
     form.setLeader(member.getNickname());
-    Long clubId = clubService.addClub(form, member).getId();
+    Long clubId = clubService.addClub(form, member, file).getId();
     return "redirect:/club/detail/" + clubId;
   }
 
@@ -183,14 +184,14 @@ public class ClubController {
 
   @PostMapping("/club/update")
   public String clubUpdate(@Validated @ModelAttribute("form") ClubUpdateForm form,
-                           BindingResult bindingResult) {
+                           BindingResult bindingResult, MultipartFile file) throws IOException {
 
     if (bindingResult.hasErrors()) {
       log.info("errors = {}", bindingResult);
       return "/club/clubDetail";
     }
 
-    Long clubId = clubService.update(form);
+    Long clubId = clubService.update(form, file);
 
     return "redirect:/club/detail/" + clubId;
   }

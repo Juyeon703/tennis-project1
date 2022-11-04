@@ -3,8 +3,8 @@ package tennis.project.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.web.multipart.MultipartFile;
 import tennis.project.dto.ClubForm;
 import tennis.project.dto.ClubUpdateForm;
 import tennis.project.web.Status;
@@ -21,7 +21,6 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 public class Club implements Serializable {
 
   @Id
@@ -41,7 +40,7 @@ public class Club implements Serializable {
   private int memberCount;
 
   @Column(length = 256)
-  private String img;
+  private String imgPath;
 
   @NotNull
   @CreatedDate
@@ -67,7 +66,7 @@ public class Club implements Serializable {
     club.setName(clubForm.getName());
     club.setIntroduction(clubForm.getIntroduction());
     club.setMemberCount(1);
-    club.setImg(clubForm.getImg());
+    club.setImgPath(clubForm.getImgPath());
     club.setCreatedDate(LocalDateTime.now().format(dtf));
     club.setStatus(Status.RECRUITING);
     club.setLocal(clubForm.getLocal());
@@ -79,7 +78,7 @@ public class Club implements Serializable {
     club.setId(form.getId());
     club.setName(form.getName());
     club.setIntroduction(form.getIntroduction());
-    club.setImg(form.getImg());
+    club.setImgPath(form.getImgPath());
     club.setStatus(form.getStatus());
     club.setLocal(form.getLocal());
   }

@@ -133,11 +133,13 @@
         </a>
       </li>
       <th:block class="page-item" th:each="page:${#numbers.sequence(startPage, endPage)}">
+        <div th:if="${endPage != 0}">
         <a class="page-link" th:if="${page != nowPage}" th:href="@{/club(page=${page -1})}"
            th:text="${page}"></a>
         <strong class="page-link" th:if="${page==nowPage}" th:text="${page}"></strong>
+        </div>
       </th:block>
-      <li class="page-item"  th:if="${nowPage!=endPage}">
+      <li class="page-item"  th:if="${nowPage!=endPage && endPage != 0}">
         <a class="page-link" aria-label="Next" th:href="@{/club(page=${nowPage})}">
           <span aria-hidden="true">&raquo;</span>
         </a>
@@ -157,7 +159,7 @@
         </div>
         <div class="modal-body">
 
-          <form th:action="@{/club/save}" th:object="${form}" method="POST">
+          <form th:action="@{/club/save}" th:object="${form}" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
               <label for="clubName" class="form-label">동호회 이름<span class="text-danger">*</span></label>
               <input type="text" class="form-control" th:field="${form.name}" id="clubName" placeholder="동호회 이름을 입력해주세요"
@@ -172,8 +174,8 @@
               </select>
             </div>
             <div class="mb-3">
-              <label for="clubImg" class="form-label">동호회 대표 이미지</label>
-              <input type="file" class="form-control" th:field="${form.img}" id="clubImg">
+              <label for="file" class="form-label">동호회 대표 이미지</label>
+              <input type="file" class="form-control" name="file" id="file">
             </div>
             <div class="mb-3">
               <label for="clubIntroduction" class="form-label">동호회 소개</label>

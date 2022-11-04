@@ -2,10 +2,10 @@ package tennis.project.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import tennis.project.domain.Club;
 import tennis.project.domain.ClubMember;
 import tennis.project.domain.Member;
@@ -13,8 +13,12 @@ import tennis.project.dto.ClubForm;
 import tennis.project.dto.ClubUpdateForm;
 import tennis.project.repository.ClubMemberRepository;
 import tennis.project.repository.ClubRepository;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
@@ -33,7 +37,16 @@ public class ClubService {
   }
 
   @Transactional
-  public Club addClub(ClubForm form, Member member) {
+  public Club addClub(ClubForm form, Member member, MultipartFile file) throws IOException {
+    if (!file.isEmpty()) {
+      String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+      String dirPath = System.getProperty("user.dir") + "/src/main/resources/static/file/";
+      file.transferTo(new File(dirPath + filename));
+      form.setImgPath("/file/" + filename);
+    } else {
+      form.setImgPath("/img/logo.png");
+    }
+
     Club club = Club.createClub(form);
     clubRepository.save(club);
     ClubMember clubMember = ClubMember.createClubMember(club, member);
@@ -60,7 +73,14 @@ public class ClubService {
   }
 
   @Transactional
-  public Long update(ClubUpdateForm form) {
+  public Long update(ClubUpdateForm form, MultipartFile file) throws IOException {
+    if (!file.isEmpty()) {
+      String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+      String dirPath = System.getProperty("user.dir") + "/src/main/resources/static/file/";
+      file.transferTo(new File(dirPath + filename));
+      form.setImgPath("/file/" + filename);
+    }
+
     Club club = clubRepository.findOne(form.getId());
     club.updateClub(form, club);
     return club.getId();
