@@ -95,6 +95,13 @@ public class BoardController {
     return result;
   }
 
+  @PostMapping("/likeCount")
+  @ResponseBody
+  public int likeCount(Long boardId) {
+    Board board = boardService.get(boardId);
+    return likeService.getLikeCount(board.getId());
+  }
+
   @GetMapping("/delete/{boardId}")
   public String boardDelete(@PathVariable("boardId") Long id) {
     boardService.delete(id);
