@@ -51,8 +51,7 @@
   <div class="heart-btn">
     <div class="content">
       <span class="heart"></span>
-      <span class="like" th:text="like"></span>
-      <span class="like" id="likeCount" th:text="${likeCount}"></span>
+      <span class="like" id="likeCount" th:text="'like '+ ${likeCount}"></span>
       <span hidden id="checkLike" th:value="${checkLike}"></span>
     </div>
   </div>

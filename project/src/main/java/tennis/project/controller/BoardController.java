@@ -20,7 +20,9 @@ import tennis.project.service.LikeService;
 import tennis.project.web.SessionConst;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -88,11 +90,15 @@ public class BoardController {
 
   @PostMapping("/like")
   @ResponseBody
-  public int like(Long boardId, HttpServletRequest request) {
+  public Map<String, Integer> like(Long boardId, HttpServletRequest request) {
     Board board = boardService.get(boardId);
     Member member = (Member) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
-    int result = likeService.clickLike(board, member);
-    return result;
+    Integer result = likeService.clickLike(board, member);
+    Map<String, Integer> map = new HashMap<>();
+    map.put("result", result);
+    Integer count =likeService.getLikeCount(board.getId());
+    map.put("count", count);
+    return map;
   }
 
   @PostMapping("/likeCount")
