@@ -17,6 +17,7 @@ import tennis.project.dto.BoardSaveForm;
 import tennis.project.dto.BoardUpdateForm;
 import tennis.project.service.BoardService;
 import tennis.project.service.LikeService;
+import tennis.project.service.ReportService;
 import tennis.project.web.SessionConst;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,11 +33,12 @@ public class BoardController {
 
   private final BoardService boardService;
   private final LikeService likeService;
+  private final ReportService reportService;
 
   // 게시글 전체조회
   @GetMapping("/home")
   public String home(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC)
-                       Pageable pageable, Model model) {
+                     Pageable pageable, Model model) {
     Page<Board> list = boardService.getBoardList(pageable);
     int nowPage = list.getPageable().getPageNumber() + 1;
     int startPage = Math.max(nowPage - 4, 1);
@@ -96,16 +98,17 @@ public class BoardController {
     Integer result = likeService.clickLike(board, member);
     Map<String, Integer> map = new HashMap<>();
     map.put("result", result);
-    Integer count =likeService.getLikeCount(board.getId());
+    Integer count = likeService.getLikeCount(board.getId());
     map.put("count", count);
     return map;
   }
 
-  @PostMapping("/likeCount")
+  @PostMapping("/report")
   @ResponseBody
-  public int likeCount(Long boardId) {
+  public void report(@RequestParam("boardId")Long boardId, @RequestParam("content") String content, HttpServletRequest request) {
     Board board = boardService.get(boardId);
-    return likeService.getLikeCount(board.getId());
+    Member member = (Member) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
+    reportService.addReport(board, member, content);
   }
 
   @GetMapping("/delete/{boardId}")
