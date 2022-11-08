@@ -16,6 +16,7 @@ import tennis.project.domain.Member;
 import tennis.project.dto.BoardSaveForm;
 import tennis.project.dto.BoardUpdateForm;
 import tennis.project.service.BoardService;
+import tennis.project.service.LikeService;
 import tennis.project.web.SessionConst;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,7 @@ import java.util.List;
 public class BoardController {
 
   private final BoardService boardService;
+  private final LikeService likeService;
 
   // 게시글 전체조회
   @GetMapping("/home")
@@ -71,10 +73,26 @@ public class BoardController {
   }
 
   @GetMapping("/detail/{boardId}")
-  public String boardDetail(@PathVariable("boardId") Long id, Model model) {
+  public String boardDetail(@PathVariable("boardId") Long id, Model model, HttpServletRequest request) {
     Board board = boardService.get(id);
     model.addAttribute("board", board);
+
+    Member member = (Member) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
+    String checkLike = likeService.checkLike(board.getId(), member.getId());
+    model.addAttribute("checkLike", checkLike);
+    int likeCount = likeService.getLikeCount(board.getId());
+    model.addAttribute("likeCount", likeCount);
+    System.out.println(likeCount);
     return "/boards/boardDetail";
+  }
+
+  @PostMapping("/like")
+  @ResponseBody
+  public int like(Long boardId, HttpServletRequest request) {
+    Board board = boardService.get(boardId);
+    Member member = (Member) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
+    int result = likeService.clickLike(board, member);
+    return result;
   }
 
   @GetMapping("/delete/{boardId}")
