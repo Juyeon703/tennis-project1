@@ -24,4 +24,13 @@ public class ReportService {
     BoardReport report = BoardReport.createReport(board, member, content);
     reportRepository.save(report);
   }
+
+  public String checkReport(Long boardId, Long memberId) {
+    Optional<BoardReport> reportCheck = reportRepository.find(boardId, memberId);
+    if (reportCheck.isEmpty()) {
+      return "not";
+    } else {
+      return "is";
+    }
+  }
 }

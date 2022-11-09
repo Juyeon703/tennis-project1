@@ -105,10 +105,15 @@ public class BoardController {
 
   @PostMapping("/report")
   @ResponseBody
-  public void report(@RequestParam("boardId")Long boardId, @RequestParam("content") String content, HttpServletRequest request) {
+  public Integer report(@RequestParam("boardId")Long boardId, @RequestParam("content") String content, HttpServletRequest request) {
     Board board = boardService.get(boardId);
     Member member = (Member) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
-    reportService.addReport(board, member, content);
+    if (reportService.checkReport(board.getId(), member.getId()) == "is") {
+      return 1;
+    } else {
+      reportService.addReport(board, member, content);
+      return 0;
+    }
   }
 
   @GetMapping("/delete/{boardId}")
