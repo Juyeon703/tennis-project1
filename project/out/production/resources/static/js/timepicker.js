@@ -15,6 +15,7 @@ $('#matchingDate').daterangepicker({
     startDate = start._d;
     endDate = end._d;
 
+    // 스트링 date로 변환?
 //     const startTime = new Date(parseInt(start.format('YYYY')),
 //         parseInt(start.format('MM')),
 //         parseInt(start.format('DD')),
@@ -23,7 +24,7 @@ $('#matchingDate').daterangepicker({
 //     console.log(startTime);
 //
 // date = startTime
-//     date.setHours(startTime.getHours() - 1);
+//     date.setHours(startTime.getHours() - 1); // 시간계산 예제 한시간 전
 //     console.log(date);
 //
 //     const endTime = new Date(parseInt(end.format('YYYY')),
@@ -32,8 +33,6 @@ $('#matchingDate').daterangepicker({
 //         parseInt(end.format('HH')),
 //         parseInt(end.format('mm')));
 //     console.log(endTime);
-
-
 });
 
 

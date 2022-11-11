@@ -25,13 +25,20 @@ $(document).ready(function () {
                     type: "POST",
                     url: "/boards/report",
                     data: {'boardId': boardId, 'content': result.value},
-                    success: function (response) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: '신고되었습니다'
-                        })
+                    success: function (data) {
+                        if (data === 1) {
+                            Swal.fire({
+                                icon: 'info',
+                                title: '이미 신고된 게시글입니다.'
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '신고되었습니다'
+                            })
+                        }
                     },
-                    error: function (response) {
+                    error: function (data) {
                         Swal.fire({
                             icon: 'error',
                             title: '오류가 발생했습니다'
