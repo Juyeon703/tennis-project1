@@ -1,6 +1,7 @@
 package tennis.project.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,8 @@ import tennis.project.domain.Member;
 import tennis.project.dto.BoardSaveForm;
 import tennis.project.dto.BoardUpdateForm;
 import tennis.project.repository.BoardRepository;
+import tennis.project.repository.LikeRepository;
+import tennis.project.repository.ReportRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -22,6 +25,8 @@ import java.util.List;
 public class BoardService {
 
   private final BoardRepository boardRepository;
+  private final LikeRepository likeRepository;
+  private final ReportRepository reportRepository;
 
   public Long addBoard(BoardSaveForm form, Member member) {
     Board board = Board.createBoard(form, member);
@@ -39,6 +44,8 @@ public class BoardService {
   }
 
   public void delete(Long id) {
+    likeRepository.deleteAllByBoardId(id);
+    reportRepository.deleteAllByBoardId(id);
     boardRepository.deleteById(id);
   }
 

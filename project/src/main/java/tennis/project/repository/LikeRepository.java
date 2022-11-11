@@ -11,4 +11,7 @@ public interface LikeRepository extends JpaRepository<BoardLike, Long>, LikeRepo
 
   @Query("select lk from BoardLike lk where lk.board.id = :boardId and lk.member.id = :memberId")
   Optional<BoardLike> find(@Param("boardId") Long boardId, @Param("memberId") Long memberId);
+
+  void deleteAllByBoardId(Long id);
+
 }

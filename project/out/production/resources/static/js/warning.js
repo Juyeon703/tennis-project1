@@ -1,3 +1,20 @@
+
+function deleteTest() {
+    const element = document.getElementById('test');
+
+    element.innerText = '이미 신고 처리된 게시글입니다.';
+}
+
+function checkReport() {
+    let reportCount = $("#reportBtn").val()
+    console.log(reportCount)
+    if (reportCount  >= 2) {
+        deleteTest();
+    };
+}
+
+document.addEventListener("DOMContentLoaded", checkReport);
+
 $(document).ready(function () {
     $("#reportBtn").click(function () {
 
@@ -19,7 +36,7 @@ $(document).ready(function () {
             confirmButtonText: '신고하기',
         }).then(function (result) {
             if (result.isConfirmed) {
-                    const boardId = $("#boardId").attr("value");
+                const boardId = $("#boardId").attr("value");
                 console.log(result.value)
                 $.ajax({
                     type: "POST",
@@ -32,11 +49,22 @@ $(document).ready(function () {
                                 title: '이미 신고된 게시글입니다.'
                             })
                         } else {
+                            // if (data === 2) {
                             Swal.fire({
                                 icon: 'success',
                                 title: '신고되었습니다'
+                            }).then(function(confirm) {
+                                if (confirm.isConfirmed && data === 2) {
+                                    deleteTest();
+                                }
                             })
                         }
+                        // else {
+                        //     Swal.fire({
+                        //         icon: 'success',
+                        //         title: '신고되었습니다'
+                        //     })
+                        // }
                     },
                     error: function (data) {
                         Swal.fire({
@@ -49,3 +77,4 @@ $(document).ready(function () {
         })
     });
 });
+

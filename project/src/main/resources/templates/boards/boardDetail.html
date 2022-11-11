@@ -21,7 +21,7 @@
   <link href="/css/like.css" rel="stylesheet"/>
 </head>
 <body>
-<div>
+<div id="test">
   <table>
     <tr>
       <th>게시글번호</th>
@@ -56,7 +56,7 @@
     </div>
   </div>
 
-  <button id="reportBtn">신고하기</button>
+  <button id="reportBtn" th:value="${reportCount}">신고하기</button>
   <div th:if="${session.loginMember.getId().equals(board.member.getId())}">
     <button th:onclick="|location.href='@{/boards/update/{id} (id=${board.id})}'|">수정</button>
     <button th:onclick="|location.href='@{/boards/delete/{id} (id=${board.id})}'|">삭제</button>
@@ -66,12 +66,11 @@
   </div>
 
 </div>
-
+<button onclick='deleteTest()'>test</button>
 <!--dateRangepicker test-->
 <input type="text" class="form-control"
        id="matchingDate" placeholder="매치 날짜를 입력해주세요" required>
 <button id="submit_btn">time</button>
-
 
 <!-- JS Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"

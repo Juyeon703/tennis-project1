@@ -33,4 +33,8 @@ public class ReportService {
       return "is";
     }
   }
+
+  public int getReportCount(Long boardId) {
+    return reportRepository.findAll().stream().filter(report -> report.getBoard().getId() == boardId).toList().size();
+  }
 }

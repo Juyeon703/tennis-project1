@@ -87,6 +87,10 @@ public class BoardController {
     int likeCount = likeService.getLikeCount(board.getId());
     model.addAttribute("likeCount", likeCount);
     System.out.println(likeCount);
+
+    int reportCount = reportService.getReportCount(board.getId());
+    model.addAttribute("reportCount", reportCount);
+    System.out.println("report:" + reportCount);
     return "/boards/boardDetail";
   }
 
@@ -112,6 +116,9 @@ public class BoardController {
       return 1;
     } else {
       reportService.addReport(board, member, content);
+      if (reportService.getReportCount(board.getId()) >= 2) {
+        return 2;
+      }
       return 0;
     }
   }

@@ -11,4 +11,6 @@ public interface ReportRepository extends JpaRepository<BoardReport, Long> {
 
   @Query("select rp from BoardReport rp where rp.board.id = :boardId and rp.member.id = :memberId")
   Optional<BoardReport> find(@Param("boardId") Long boardId, @Param("memberId") Long memberId);
+
+  void deleteAllByBoardId(Long id);
 }
