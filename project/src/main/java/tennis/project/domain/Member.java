@@ -4,10 +4,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tennis.project.dto.MemberSaveForm;
+import tennis.project.web.Provider;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Map;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -23,10 +25,9 @@ public class Member implements Serializable {
   private Long id;
 
   @NotNull
-  @Column(unique = true, length = 20)
+  @Column(unique = true, length = 50)
   private String loginId;
 
-  @NotNull
   @Column(unique = true, length = 30)
   private String password;
 
@@ -38,12 +39,28 @@ public class Member implements Serializable {
   @Column(unique = true, length = 50)
   private String email;
 
+  @Enumerated(EnumType.STRING)
+  private Provider provider;
+
+  private String accessToken;
+
   public static Member createMember(MemberSaveForm form) {
     Member member = new Member();
     member.setLoginId(form.getLoginId());
     member.setPassword(form.getPassword());
     member.setNickname(form.getNickname());
     member.setEmail(form.getEmail());
+    member.setProvider(Provider.GOGOTENNIS);
+    return member;
+  }
+
+  public static Member createGoogleMember(Map<String, String> userInfo, String access_token) {
+    Member member = new Member();
+    member.setLoginId(userInfo.get("email"));
+    member.setNickname(userInfo.get("name"));
+    member.setEmail(userInfo.get("email"));
+    member.setProvider(Provider.GOGOTENNIS);
+    member.setAccessToken(access_token);
     return member;
   }
 }

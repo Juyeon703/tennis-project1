@@ -49,7 +49,6 @@ $(document).ready(function () {
                                 title: '이미 신고된 게시글입니다.'
                             })
                         } else {
-                            // if (data === 2) {
                             Swal.fire({
                                 icon: 'success',
                                 title: '신고되었습니다'
@@ -59,12 +58,6 @@ $(document).ready(function () {
                                 }
                             })
                         }
-                        // else {
-                        //     Swal.fire({
-                        //         icon: 'success',
-                        //         title: '신고되었습니다'
-                        //     })
-                        // }
                     },
                     error: function (data) {
                         Swal.fire({

@@ -18,7 +18,12 @@
 <div th:if="${session.loginMember != null}">
   <button th:onclick="|location.href='@{/boards/home}'|">게시글 전체보기</button>
   <button th:onclick="|location.href='@{/boards/boardAdd}'|">게시글 등록</button>
+  <div th:if="${session.loginMember != null} and ${session.loginMember.provider.toString() == 'GOGOTENNIS'}">
   <button th:onclick="|location.href='@{/login/logout}'|">로그아웃</button>
+  </div>
+  <div th:if="${session.loginMember != null} and ${session.loginMember.provider.toString() == 'GOOGLE'}">
+    <button th:onclick="|location.href='@{/oauth/google/logout}'|">구글로그아웃</button>
+  </div>
 </div>
 </body>
 </html>
