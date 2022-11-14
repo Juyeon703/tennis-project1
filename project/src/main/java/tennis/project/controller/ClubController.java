@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import tennis.project.domain.Member;
 import tennis.project.dto.ClubForm;
 import tennis.project.dto.ClubUpdateForm;
 import tennis.project.service.ClubService;
+import tennis.project.service.ClubSpecification;
 import tennis.project.service.TournamentService;
 import tennis.project.web.SessionConst;
 import tennis.project.web.Status;
@@ -39,9 +41,15 @@ public class ClubController {
 
   @GetMapping("/club")
   public String clubList(@PageableDefault(page = 0, size = 3)
-                         Pageable pageable, Model model) {
+                         Pageable pageable, Model model, @RequestParam(required = false, value = "keyword") String keyword) {
+    Page<Club> clubs;
 
-    Page<Club> clubs = clubService.getClubList(pageable);
+    if (keyword != null) {
+      clubs = clubService.searchClubs(keyword, pageable);
+    } else {
+      clubs = clubService.getClubList(pageable);
+    }
+
     int nowPage = clubs.getPageable().getPageNumber() + 1;
     int startPage = Math.max(nowPage - 4, 1);
     int endPage = Math.min(nowPage + 9, clubs.getTotalPages());
@@ -61,21 +69,44 @@ public class ClubController {
     return "/club/clubList"; // 동호회 리스트 페이지
   }
 
-  @GetMapping("/club/search")
-  public String search(@RequestParam(value = "keyword") String keyword,
-                       Model model) {
-    List<Club> clubs = clubService.searchClubs(keyword);
+//  @GetMapping("/club/search")
+//  public String search(@RequestParam(required = false) String keyword, Model model) {
+//    List<Club> clubs = clubService.searchClubs(keyword);
+//    Specification<Club> spec = (root, query, criteriaBuilder) -> null;
+//
+//    model.addAttribute("clubs", clubs);
+//
+//    // 클럽 생성 모달
+//    ClubForm clubForm = new ClubForm();
+//    model.addAttribute("form", clubForm);
+//
+//    List<Local> locals = tournamentService.getLocalList();
+//    model.addAttribute("locals", locals);
+//    return "/club/clubList";
+//  }
 
-    model.addAttribute("clubs", clubs);
-
-    // 클럽 생성 모달
-    ClubForm clubForm = new ClubForm();
-    model.addAttribute("form", clubForm);
-
-    List<Local> locals = tournamentService.getLocalList();
-    model.addAttribute("locals", locals);
-    return "/club/clubList";
-  }
+//  @GetMapping("/club/search")
+//  public String search(@RequestParam(value = "keyword") String keyword,
+//                       Model model, @PageableDefault(page = 0, size = 3)
+//                       Pageable pageable) {
+//    Page<Club> clubs = clubService.searchClubs(keyword, pageable);
+//    int nowPage = clubs.getPageable().getPageNumber() + 1;
+//    int startPage = Math.max(nowPage - 4, 1);
+//    int endPage = Math.min(nowPage + 9, clubs.getTotalPages());
+//
+//    model.addAttribute("clubs", clubs);
+//    model.addAttribute("nowPage", nowPage);
+//    model.addAttribute("startPage", startPage);
+//    model.addAttribute("endPage", endPage);
+//
+//    // 클럽 생성 모달
+//    ClubForm clubForm = new ClubForm();
+//    model.addAttribute("form", clubForm);
+//
+//    List<Local> locals = tournamentService.getLocalList();
+//    model.addAttribute("locals", locals);
+//    return "/club/clubList";
+//  }
 
   @GetMapping("/club/detail/{clubId}")
   public String clubDetail(@PathVariable("clubId") Long clubId, Model model, HttpServletRequest request) {
