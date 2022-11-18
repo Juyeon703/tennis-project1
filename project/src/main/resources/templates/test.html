@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link rel="shortcut icon" href="#">
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.1.js"
+          integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+          crossorigin="anonymous"></script>
+  <title>Login</title>
+  <style>
+      .star {
+          position: relative;
+          font-size: 2rem;
+          color: #ddd;
+      }
+
+      .star input {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          left: 0;
+          opacity: 0;
+          cursor: pointer;
+      }
+
+      .star span {
+          width: 0;
+          position: absolute;
+          left: 0;
+          color: red;
+          overflow: hidden;
+          pointer-events: none;
+      }
+  </style>
+</head>
+<body>
+<form action="/test/star" method="post" th:object="${form}">
+<span class="star">
+  ★★★★★
+  <span>★★★★★</span>
+  <input type="range" th:field="${form.star}" oninput="drawStar(this)" value="1" step="1" min="0" max="10">
+</span>
+  <button type="submit">저장</button>
+</form>
+<script>
+    const drawStar = (target) => {
+        document.querySelector(`.star span`).style.width = `${target.value * 10}%`;
+        console.log(target.value)
+    }
+</script>
+</body>
+</html>
