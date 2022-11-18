@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TestForm {
+public class StarForm {
 
   private String star;
 }
